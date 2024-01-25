@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Constants/colors.dart';
+import 'package:lakesamerica/Pages/OnboardingPage.dart';
 
 import 'Dashboard.dart';
 
@@ -26,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       // Replace the below code with your logic to navigate to the next screen
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  DashboardPage(tabindex: 0)),
+        MaterialPageRoute(builder: (context) =>  OnboardingScreen()),
       );
     });
   }
