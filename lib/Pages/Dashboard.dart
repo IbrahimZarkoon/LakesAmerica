@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Constants/colors.dart';
+import 'package:lakesamerica/Pages/HomePage.dart';
+import 'package:lakesamerica/Pages/ShopPage.dart';
 
 import '../CustomWidgets/AppBar.dart';
 import '../CustomWidgets/Drawer.dart';
+import 'FavoritesPage.dart';
 
 class DashboardPage extends StatefulWidget {
   DashboardPage({Key? key, required this.tabindex}) : super(key: key);
@@ -17,10 +20,10 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> with SingleTickerProviderStateMixin{
 
   final userTabs = [
-    Container(width: 100,height: 2000,color: Colors.green,),
-    Container(width: 100,height: 2000,color: Colors.red,),
+    HomePage(),
+    ShopPage(),
     Container(color: Colors.blue,width: 100,height: 2000),
-    Container(color: Colors.grey,width: 100,height: 2000),
+    FavoritesPage(),
     Container(color: Colors.blue,width: 100,height: 2000),
 
 
@@ -38,41 +41,55 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
 
-    return SafeArea(
-      child: Scaffold(
-        drawer: Drawer(
-          elevation: 10,
-          //clipBehavior: Clip.hardEdge,
-          //shadowColor: Colors.black.withOpacity(0.5),
-          child:  CustomDrawer(),
+    return WillPopScope(
+      onWillPop: showExitConfirmationDialog,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(_tabController.index == 0 ? 0 : kToolbarHeight),
+            child: _tabController.index == 3
+                ? AppBar(
+              automaticallyImplyLeading: false,
+
+              centerTitle: true,
+              title: Text(
+                "My Favorites",
+                style: TextStyle(
+                  fontFamily: "OpenSans_Bold",
+                  fontSize: MediaQuery.of(context).size.height * 0.022,
+                ),
+              ),
+              backgroundColor: Colors.white,
+            )
+                : CustomAppBar(),
+          ),
+          endDrawer: _tabController.index == 3 ? null : Drawer(
+            backgroundColor: white,
+            surfaceTintColor: Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+            elevation: 10,
+            child: CustomDrawer(),
+          ),
+
+          body: RepaintBoundary(
+              child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: _tabController,
+                  children: userTabs)),
+
+          // floatingActionButton: FloatingActionButton(
+          //   onPressed: () { setState(() {
+          //     widget.tabindex = 2;
+          //     _tabController.animateTo(widget.tabindex);
+          //
+          //   }); },
+          //   backgroundColor: Color(0xff00afef),
+          //   child: Icon(Icons.find_in_page),
+          // ),
 
 
+          bottomNavigationBar:  customBottomNavBar(context),
         ),
-
-        //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight*2),
-          child: CustomAppBar(),
-        ),
-
-        body: RepaintBoundary(
-            child: TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _tabController,
-                children: userTabs)),
-
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () { setState(() {
-        //     widget.tabindex = 2;
-        //     _tabController.animateTo(widget.tabindex);
-        //
-        //   }); },
-        //   backgroundColor: Color(0xff00afef),
-        //   child: Icon(Icons.find_in_page),
-        // ),
-
-
-        bottomNavigationBar:  customBottomNavBar(context),
       ),
     );
   }
@@ -84,10 +101,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
           color: const Color(0xffffffff),
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withOpacity(0.15),
+                color: Colors.black.withOpacity(0.05),
                 blurRadius: 1.5,
                 spreadRadius: 0,
-                offset: const Offset(0,-1)
+                offset: const Offset(0,0)
             )
           ]
       ),
@@ -129,12 +146,12 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
           ),
            Tab(
             iconMargin: EdgeInsets.only(bottom: 3),
-            icon: widget.tabindex == 1? Icon(Icons.shopping_bag,size: MediaQuery.sizeOf(context).height*0.03) : Icon(Icons.shopping_bag_outlined,size: MediaQuery.sizeOf(context).height*0.025,),
+            icon: widget.tabindex == 1? Icon(Icons.shopify_outlined,size: MediaQuery.sizeOf(context).height*0.03) : Icon(Icons.shopify_outlined,size: MediaQuery.sizeOf(context).height*0.025,),
             text: 'Shop',
           ),
           Tab(
             iconMargin: const EdgeInsets.only(bottom: 3),
-            icon: widget.tabindex == 2? Icon(Icons.local_offer,size: MediaQuery.sizeOf(context).height*0.03) : Icon(Icons.local_offer_outlined,size: MediaQuery.sizeOf(context).height*0.025,),
+            icon: widget.tabindex == 2? Icon(CupertinoIcons.gift_alt_fill,size: MediaQuery.sizeOf(context).height*0.03) : Icon(CupertinoIcons.gift_alt,size: MediaQuery.sizeOf(context).height*0.025,),
 
             text: 'Offers',
           ),
@@ -153,5 +170,63 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
         ],
       ),
     );
+  }
+
+  Future<bool> showExitConfirmationDialog() async {
+    return (await showDialog(
+      barrierColor: black.withOpacity(0.75),
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: white,
+        surfaceTintColor: white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        title: Text('Exit Lakes America',style: TextStyle(
+            color: primaryColor,fontSize: MediaQuery.sizeOf(context).height*0.026
+        ),),
+        content: Text('Before leaving make sure all your purchases are complete.',style: TextStyle(
+          color: black.withOpacity(0.6),fontSize: MediaQuery.sizeOf(context).height*0.016
+        ),),
+        actions: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: primaryColor,
+              boxShadow: [
+                BoxShadow(
+                  color: black.withOpacity(0.2),
+                  offset: Offset(0,0),
+                  blurRadius: 1.5,
+                )
+              ]
+            ),
+            child: TextButton(
+              onPressed: () => Navigator.of(context).pop(true), // Exits the app
+              child: Text('Stay',style: TextStyle(
+                  color: white,fontSize: MediaQuery.sizeOf(context).height*0.016
+              ),),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: white,
+                boxShadow: [
+                  BoxShadow(
+                    color: black.withOpacity(0.2),
+                    offset: Offset(0,0),
+                    blurRadius: 1.5,
+                  )
+                ]
+            ),
+            child: TextButton(
+              onPressed: () => Navigator.of(context).pop(false), // Cancels the exit
+              child: Text('Exit',style: TextStyle(
+                  color: secondaryColor,fontSize: MediaQuery.sizeOf(context).height*0.016
+              ),),
+            ),
+          ),
+        ],
+      ),
+    )) ?? false; // If dialog is dismissed by tapping outside, it returns null, which is converted to false
   }
 }

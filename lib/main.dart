@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         primaryColor: primaryColor,
         //colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        fontFamily: "OpenSans"
       ),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),

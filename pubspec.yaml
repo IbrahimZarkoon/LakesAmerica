@@ -35,6 +35,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -87,25 +88,25 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-#  fonts:
-#    - family: OpenSans
-#      fonts:
-#        - asset: assets/fonts/OpenSans/OpenSans-Regular.ttf
-#    - family: OpenSans_Bold
-#      fonts:
-#        - asset: assets/fonts/OpenSans/OpenSans-Bold.ttf
-#    - family: OpenSans_SemiBold
-#      fonts:
-#        - asset: assets/fonts/OpenSans/OpenSans-Medium.ttf
-#    - family: OpenSans_Medium
-#      fonts:
-#        - asset: assets/fonts/OpenSans/OpenSans-Light.ttf
-#    - family: OpenSans_Light
-#      fonts:
-#        - asset: assets/fonts/OpenSans/OpenSans-Bold.ttf
-#    - family: OpenSans_Italic
-#      fonts:
-#        - asset: assets/fonts/OpenSans/OpenSans-Italic.ttf
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans/OpenSans-Regular.ttf
+    - family: OpenSans_Bold
+      fonts:
+        - asset: assets/fonts/OpenSans/OpenSans-Bold.ttf
+    - family: OpenSans_SemiBold
+      fonts:
+        - asset: assets/fonts/OpenSans/OpenSans-Medium.ttf
+    - family: OpenSans_Medium
+      fonts:
+        - asset: assets/fonts/OpenSans/OpenSans-Light.ttf
+    - family: OpenSans_Light
+      fonts:
+        - asset: assets/fonts/OpenSans/OpenSans-Bold.ttf
+    - family: OpenSans_Italic
+      fonts:
+        - asset: assets/fonts/OpenSans/OpenSans-Italic.ttf
 #    - family: Amiri
 #      fonts:
 #        - asset: assets/fonts/Amiri/Amiri-Regular.ttf

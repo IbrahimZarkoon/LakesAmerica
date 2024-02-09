@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Constants/colors.dart';
 import 'package:lakesamerica/Pages/OnboardingPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Dashboard.dart';
 
@@ -23,12 +24,24 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     );
     _animation = Tween<double>(begin: 1.75, end: 0.0).animate(_animationController);
     _animationController.forward();
-    Future.delayed(const Duration(seconds: 2), () {
-      // Replace the below code with your logic to navigate to the next screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>  OnboardingScreen()),
-      );
+
+    Future.delayed(const Duration(seconds: 2), () async {
+      // Check if onboarded
+      final prefs = await SharedPreferences.getInstance();
+      final onboarded = prefs.getBool('onboarded') ?? false;
+
+      // Navigate based on the value of onboarded
+      if (onboarded) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => DashboardPage(tabindex: 0)),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => OnboardingScreen()),
+        );
+      }
     });
   }
 
@@ -57,15 +70,15 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               ),
             ),
           ),
-           Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.sizeOf(context).height*0.05),
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
-              ),
-            ),
-          ),
+          //  Align(
+          //   alignment: Alignment.bottomCenter,
+          //   child: Padding(
+          //     padding: EdgeInsets.only(bottom: MediaQuery.sizeOf(context).height*0.05),
+          //     child: CircularProgressIndicator(
+          //       valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       backgroundColor: white, // Set your desired background color

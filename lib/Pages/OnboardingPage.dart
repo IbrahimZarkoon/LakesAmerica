@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Pages/Dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Constants/colors.dart';
 
@@ -11,6 +12,11 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currentPage = 0;
   final PageController _pageController = PageController(initialPage: 0);
+
+  Future<void> _setOnboarded() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarded', true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,33 +50,34 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ],
           ),
           Positioned(
-            bottom: 20,left: 20,right: 20,
+            bottom: MediaQuery.sizeOf(context).height*0.025,left: MediaQuery.sizeOf(context).height*0.025,right: MediaQuery.sizeOf(context).height*0.025,
             child: InkWell(
               onTap: () {
                 // Handle button press, navigate to the main app
                 if(_currentPage < 3) {
                   setState(() {
                     _currentPage++;
-                    _pageController.animateToPage(_currentPage, duration: Duration(milliseconds: 1), curve: Curves.easeIn);
+                    _pageController.animateToPage(_currentPage, duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
                   });
                 }
                 if(_currentPage == 3) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DashboardPage(tabindex: 0)),
-                  );
+                  _setOnboarded().then((_) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => DashboardPage(tabindex: 0)),
+                    );
+                  });
                 }
               },
               child: Container(
                 alignment: Alignment.center,
-                  padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height*0.01,bottom: MediaQuery.sizeOf(context).height*0.01),
+                  padding: EdgeInsets.only(top: MediaQuery.sizeOf(context).height*0.015,bottom: MediaQuery.sizeOf(context).height*0.015),
                   decoration: BoxDecoration(
-                    color: white,
+                    color: primaryColor,
                     borderRadius: BorderRadius.circular(20)
                   ),
-                  child: Text(_currentPage == 2 ? "Get Started" : "Next",style: TextStyle(
-                    color: primaryColor,fontSize: MediaQuery.sizeOf(context).height*0.016,fontFamily: "OpenSans_Bold"
+                  child: Text(_currentPage >= 2 ? "Get Started" : "Continue",style: TextStyle(
+                    color: white,fontSize: MediaQuery.sizeOf(context).height*0.018,fontFamily: "OpenSans_SemiBold"
                   ),)),
             ),
           )
@@ -80,38 +87,49 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget createPage({required String title, required String content, required String image}) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(image),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+    return Stack(
+      children: [
+      Container(
+        height: MediaQuery.sizeOf(context).height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(image),
+            fit: BoxFit.cover,
           ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Text(
-              content,
-              textAlign: TextAlign.center,
+        ),
+        foregroundDecoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Colors.transparent, black],
+                stops: [0.5, 0.75],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter)),
+      ),
+        
+        Positioned(
+          bottom: MediaQuery.sizeOf(context).height*0.15,left: MediaQuery.sizeOf(context).height*0.025,right: MediaQuery.sizeOf(context).height*0.025,
+
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              title,
               style: TextStyle(
-                fontSize: 20,
+              fontSize: MediaQuery.sizeOf(context).height*0.03,fontFamily: "OpenSans_Bold",
                 color: Colors.white,
               ),
             ),
-          ),
-        ],
-      ),
+            SizedBox(height: MediaQuery.sizeOf(context).height*0.015),
+            Text(
+              content,
+              textAlign: TextAlign.start,
+              style: TextStyle(color: white,
+                fontSize: MediaQuery.sizeOf(context).height*0.025,fontFamily: "OpenSans_SemiBold",
+              ),
+            ),
+          ],
+        ),)
+    ]
     );
   }
 }
