@@ -41,14 +41,44 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return SafeArea(
       child: Drawer(
+        backgroundColor: white,
+        elevation: 0,
         child: Column(
           children: [
             Expanded(
               child: TabBarView(
+                physics: NeverScrollableScrollPhysics(),
                 controller: _tabController,
                 children: [
                   drawerWidget(),
                   departmentWidget(),
+                ],
+              ),
+            ),
+
+            //Version
+            Container(
+              margin: EdgeInsets.symmetric(vertical: MediaQuery.sizeOf(context).height*0.025),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: "© Lakes America ",
+                            style: TextStyle(
+                                color: black,
+                                fontWeight: FontWeight.normal,
+                                fontSize: MediaQuery.sizeOf(context).height*0.015)),
+                        TextSpan(
+                            text: "™1.0.0 (15003)",
+                            style: TextStyle(
+                                color: Colors.black.withOpacity(0.6),
+                                fontWeight: FontWeight.normal,
+                                fontSize: MediaQuery.sizeOf(context).height*0.015)),
+                      ]))
                 ],
               ),
             ),
@@ -304,34 +334,6 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
             ),
           ),
 
-          Spacer(),
-
-          //Version
-          Container(
-            margin: EdgeInsets.symmetric(vertical: MediaQuery.sizeOf(context).height*0.025),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    text: TextSpan(children: [
-                      TextSpan(
-                          text: "© Lakes America ",
-                          style: TextStyle(
-                              color: black,
-                              fontWeight: FontWeight.normal,
-                              fontSize: MediaQuery.sizeOf(context).height*0.015)),
-                      TextSpan(
-                          text: "™1.0.0 (15003)",
-                          style: TextStyle(
-                              color: Colors.black.withOpacity(0.6),
-                              fontWeight: FontWeight.normal,
-                              fontSize: MediaQuery.sizeOf(context).height*0.015)),
-                    ]))
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -386,146 +388,58 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
                 itemCount: depList.length ?? 0,
                 itemBuilder: (BuildContext context, index) {
                   return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     CupertinoPageRoute(
-                        //         builder: (BuildContext context) =>
-                        //             SingleCategory(
-                        //                 tag: "drawerItem$index")));
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(
-                                top: 10,
-                                bottom: 10,
-                                left: 0,
-                                right: 0),
-                            padding: const EdgeInsets.only(
-                                top: 0, bottom: 0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              // boxShadow: [
-                              //   BoxShadow(
-                              //       offset: const Offset(0, 0),
-                              //
-                              //       blurRadius: 1.5,
-                              //       color: Colors.black.withOpacity(0.2))
-                              // ],
-                            ),
-                            child: Column(children: [
-                              Container(
-                                height: MediaQuery.of(context)
-                                    .size
-                                    .height *
-                                    0.05,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.circular(5),
-                                  color: const Color(0xffffffff),
-                                ),
-                                child: ListTile(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(5)),
-                                  contentPadding:
-                                  const EdgeInsets.all(0),
+                    onTap: () {
 
-                                  title: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 15,
-                                        left: 20,
-                                        right: 15),
-                                    child: Row(
-                                      children: [
-                                        //Icon(Icons.favorite_border_outlined,size: 18,color: Colors.black.withOpacity(0.7),),
-                                        Text(
-                                          depList[index],
-                                          style: TextStyle(
-                                              color: Colors.black
-                                                  .withOpacity(0.75)),
-                                        ),
+                      //launchURL("https://www.whatsapp.com/");
+                    },
+                    child:  Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.sizeOf(context).height*0.05,
+                          child: ListTile(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(5)),
+                            contentPadding: const EdgeInsets.all(0),
 
-                                        const Spacer(),
+                            title: Padding(
+                              padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.015,),
+                              child: Row(
+                                children: [
+                                  // Icon(
+                                  //     Icons.category_outlined,
+                                  //     size: MediaQuery.of(context).size.height * 0.025,
+                                  //     color:
+                                  //     black
+                                  // ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.height * 0.005,
+                                  ),
+                                  Text(
+                                    depList[index],
+                                    style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.height * 0.016,
+                                        fontFamily: "OpenSans_SemiBold",
 
-                                        Icon(
-                                          Icons
-                                              .keyboard_arrow_right_outlined,
-                                          color: Colors.black
-                                              .withOpacity(0.7),
-                                        )
-                                      ],
-                                    ),
+                                        color: black),
                                   ),
 
-                                  // trailing:  Padding(
-                                  //   padding: EdgeInsets.only(bottom: 15,left: 15,right: 15),
-                                  //   child: Icon(Icons.keyboard_arrow_right_outlined,size: 20,color: Colors.black.withOpacity(0.6),),
-                                  // ),
+                                  Spacer(),
 
-                                  //contentPadding: const EdgeInsets.all(10),
+                                  Icon(Icons.keyboard_arrow_right,size: MediaQuery.of(context).size.height * 0.025,)
 
-                                  style: ListTileStyle.drawer,
-                                ),
-                              ),
-                            ]),
-                          ),
 
-                          //Shadow Line Container
-                          index < depList.length - 1
-                              ? Container(
-                            width: MediaQuery.of(context)
-                                .size
-                                .width,
-                            height: 1,
-                            margin: const EdgeInsets.only(
-                                left: 15, right: 15),
-                            decoration: const BoxDecoration(
-                              color: Color(0xffd0d0d0),
-                            ),
-                          )
-                              : GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (_) =>
-                                          DashboardPage(tabindex: 2)));
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  right: 20, top: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.end,
-                                crossAxisAlignment:
-                                CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color: Colors
-                                                      .black
-                                                      .withOpacity(
-                                                      0.7),
-                                                  width: 1.0))),
-                                      child: Text(
-                                        "View all",
-                                        style: TextStyle(
-                                            fontSize: 14),
-                                      )),
-
-                                  //Icon(Icons.double_arrow_rounded,color: Colors.black.withOpacity(0.7),size: 19,),
                                 ],
                               ),
                             ),
+                            style: ListTileStyle.drawer,
                           ),
-                        ],
-                      ));
+                        ),
+
+                        shadowLine(),
+                      ],
+                    ),
+                  );
                 }),
           ),
         ],

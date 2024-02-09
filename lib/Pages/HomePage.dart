@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/CustomWidgets/HomeScrContainer.dart';
+import 'package:lakesamerica/Pages/Dashboard.dart';
 
 import '../Constants/colors.dart';
 
@@ -91,38 +92,46 @@ class _HomePageState extends State<HomePage>
           initialPage == 3
               ? Positioned(
                   right: 20,
-                  left: 20,
+
                   bottom: 20,
                   child: InkWell(
                     onTap: () {
-                      if (initialPage < 3) {
-                        _pageController.animateToPage(
-                          initialPage + 1,
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                      if (initialPage == 3) {
-                        _pageController.animateToPage(
-                          initialPage - 1,
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                      }
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => DashboardPage(tabindex: 1)));
                     },
                     child: AnimatedBuilder(
-                      animation: _animation,
-                      builder: (context, child) {
-                        return Transform.translate(
-                          offset: Offset(0.0, 20.0 * _animation.value),
-                          child: const Icon(
-                            Icons.keyboard_arrow_up,
-                            size: 50,
-                            color: Colors.white,
-                          ),
-                        );
-                      },
-                    ),
+                        animation: _animation,
+                        builder: (context, child) {
+                          return Transform.translate(
+                            offset: Offset( 7.5 * _animation.value,0.0),
+                            child: Row(
+                              children: [
+
+                                Text("Explore",style: TextStyle(
+                                    color: white,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.018
+                                ),),
+                                 Icon(
+                                  Icons.keyboard_arrow_right,
+                                  size: MediaQuery.sizeOf(context).height*0.05,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    // child: AnimatedBuilder(
+                    //   animation: _animation,
+                    //   builder: (context, child) {
+                    //     return Transform.translate(
+                    //       offset: Offset(0.0, 20.0 * _animation.value),
+                    //       child: const Icon(
+                    //         Icons.keyboard_arrow_up,
+                    //         size: 50,
+                    //         color: Colors.white,
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
                   ),
                 )
               : Positioned(

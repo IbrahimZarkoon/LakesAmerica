@@ -5,6 +5,7 @@ import 'package:lakesamerica/CustomWidgets/TrendingContainer.dart';
 
 import '../Constants/colors.dart';
 import '../CustomWidgets/ShopPageProductsGridview.dart';
+import '../Routes/PageRoutes.dart';
 
 class ShopPage extends StatefulWidget {
   const ShopPage({super.key});
@@ -39,54 +40,63 @@ class _ShopPageState extends State<ShopPage> {
           ),
 
           //New Jeans Widget
-          Stack(
-            children:[
-            Container(
-              margin: EdgeInsets.only(top: 5),
-              width: double.infinity, // Full width of the parent
-              height: MediaQuery.sizeOf(context).height *
-                  0.1, // Set the height as needed
-              foregroundDecoration: BoxDecoration(
-                color: black.withOpacity(0.4)
-                // gradient: LinearGradient(
-                  //     colors: [Colors.transparent, black.withOpacity(0.4)],
-                  //     stops: [0.2, 0.45],
-                  //     begin: Alignment.topCenter,
-                  //     end: Alignment.bottomCenter)
-              ),
-              
-              decoration: BoxDecoration(
-                color: white,
-                image: DecorationImage(
-                  image: NetworkImage(
-                      "https://img.freepik.com/free-photo/jeans-closeup_93675-129899.jpg?t=st=1706616401~exp=1706617001~hmac=d299c5e9a20f33e133b11cad5b53c3aa7c9810779c15526c2be9cb20c6888a0c"),
-                  // Replace with your image asset
-                  fit: BoxFit
-                      .cover, // This ensures the image covers the container
+          InkWell(
+            onTap: ()
+            {
+              navigateToAllProductsPage(
+                  context,
+                  "https://img.freepik.com/free-photo/jeans-closeup_93675-129899.jpg?t=st=1706616401~exp=1706617001~hmac=d299c5e9a20f33e133b11cad5b53c3aa7c9810779c15526c2be9cb20c6888a0c",
+                  "Jeans");
+            },
+            child: Stack(
+              children:[
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                width: double.infinity, // Full width of the parent
+                height: MediaQuery.sizeOf(context).height *
+                    0.1, // Set the height as needed
+                foregroundDecoration: BoxDecoration(
+                  color: black.withOpacity(0.4)
+                  // gradient: LinearGradient(
+                    //     colors: [Colors.transparent, black.withOpacity(0.4)],
+                    //     stops: [0.2, 0.45],
+                    //     begin: Alignment.topCenter,
+                    //     end: Alignment.bottomCenter)
+                ),
+
+                decoration: BoxDecoration(
+                  color: white,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        "https://img.freepik.com/free-photo/jeans-closeup_93675-129899.jpg?t=st=1706616401~exp=1706617001~hmac=d299c5e9a20f33e133b11cad5b53c3aa7c9810779c15526c2be9cb20c6888a0c"),
+                    // Replace with your image asset
+                    fit: BoxFit
+                        .cover, // This ensures the image covers the container
+                  ),
                 ),
               ),
-            ),
-              
-              Positioned(
-                bottom: 0,top: 0,left: 0,right: 0,
-                child: Center(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Explore newest jeans",
-                      style: TextStyle(
-                        color: white,fontSize: MediaQuery.sizeOf(context).height*0.024,
-                        fontWeight: FontWeight.bold, // Optional: change the font weight
+
+                Positioned(
+                  bottom: 0,top: 0,left: 0,right: 0,
+                  child: Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Explore newest jeans",
+                        style: TextStyle(
+                          color: white,fontSize: MediaQuery.sizeOf(context).height*0.024,
+                          fontWeight: FontWeight.bold, // Optional: change the font weight
+                        ),
                       ),
-                    ),
-                     SizedBox(width: MediaQuery.sizeOf(context).width*0.025,),
-                    Icon(Icons.keyboard_double_arrow_right_outlined,color: white,size: MediaQuery.sizeOf(context).height*0.03,)
-                  ],
-                ),
-              ),)
-          ]
+                       SizedBox(width: MediaQuery.sizeOf(context).width*0.025,),
+                      Icon(Icons.keyboard_double_arrow_right_outlined,color: white,size: MediaQuery.sizeOf(context).height*0.03,)
+                    ],
+                  ),
+                ),)
+            ]
+            ),
           ),
 
           //New Arrival Widget

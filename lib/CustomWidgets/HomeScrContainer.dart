@@ -124,32 +124,44 @@ class _HomeScrContainerState extends State<HomeScrContainer> with TickerProvider
                   ),
                 ),
               ),
-
-              Positioned(
-                right: 20,
-                //bottom: 50,
-                child: AnimatedBuilder(
-                  animation: _Arrowanimation,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset( 7.5 * _Arrowanimation.value,0.0),
-                      child: Row(
-                        children: [
-
-                          Text("Explore",style: TextStyle(
-                              color: white,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.018
-                          ),),
-                           Icon(
-                            Icons.keyboard_arrow_right,
-                            size: MediaQuery.sizeOf(context).height*0.05,
-                            color: Colors.white,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              )
+              //
+              // Positioned(
+              //   right: 20,
+              //   top: 20,
+              //   child: Container(
+              //     alignment: Alignment.center,
+              //     padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.02,vertical: MediaQuery.sizeOf(context).height*0.01),
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(10),
+              //       color: primaryColor,
+              //       border: Border.all(color: primaryColor,width: 2)
+              //     ),
+              //     child: Text("Skip",style: TextStyle(
+              //       color: white,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.018
+              //     ),),
+              //   ),
+              //   // child: AnimatedBuilder(
+              //   //   animation: _Arrowanimation,
+              //   //   builder: (context, child) {
+              //   //     return Transform.translate(
+              //   //       offset: Offset( 7.5 * _Arrowanimation.value,0.0),
+              //   //       child: Row(
+              //   //         children: [
+              //   //
+              //   //           Text("Explore",style: TextStyle(
+              //   //               color: white,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.018
+              //   //           ),),
+              //   //            Icon(
+              //   //             Icons.keyboard_arrow_right,
+              //   //             size: MediaQuery.sizeOf(context).height*0.05,
+              //   //             color: Colors.white,
+              //   //           ),
+              //   //         ],
+              //   //       ),
+              //   //     );
+              //   //   },
+              //   // ),
+              // )
             ],
           ),
         ),

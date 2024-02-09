@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lakesamerica/CustomWidgets/Headings.dart';
 
 import '../Constants/colors.dart';
+import '../Routes/PageRoutes.dart';
 
 class PopularCategories extends StatelessWidget {
   const PopularCategories({super.key});
@@ -71,50 +72,59 @@ class PopularCategories extends StatelessWidget {
 
   Widget productCon(BuildContext context,String title,String category,String img)
   {
-    return Container(
-      //color: Colors.red,
-      //padding: EdgeInsets.all(MediaQuery.si),
-      constraints: BoxConstraints(
-        maxWidth: MediaQuery.sizeOf(context).width*0.3,
-      ),
-      margin: EdgeInsets.only(left: MediaQuery.sizeOf(context).height*0.015),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(height: MediaQuery.sizeOf(context).height*0.01,),
+    return InkWell(
+      onTap: ()
+      {
+        navigateToAllProductsPage(
+            context,
+            img,
+            title);
+      },
+      child: Container(
+        //color: Colors.red,
+        //padding: EdgeInsets.all(MediaQuery.si),
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.sizeOf(context).width*0.3,
+        ),
+        margin: EdgeInsets.only(left: MediaQuery.sizeOf(context).height*0.015),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: MediaQuery.sizeOf(context).height*0.01,),
 
-          ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: Image.network(
-              '$img',
-              width: MediaQuery.sizeOf(context).height*0.125,
-              height: MediaQuery.sizeOf(context).height*0.125,
-              fit: BoxFit.cover,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.network(
+                '$img',
+                width: MediaQuery.sizeOf(context).height*0.125,
+                height: MediaQuery.sizeOf(context).height*0.125,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          SizedBox(height: MediaQuery.sizeOf(context).height*0.01,),
-          Text(
-            '$category',
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                fontSize: MediaQuery.sizeOf(context).height*0.014,
-                fontFamily: "OpenSans_SemiBold",color: black.withOpacity(0.5)
+            SizedBox(height: MediaQuery.sizeOf(context).height*0.01,),
+            Text(
+              '$category',
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontSize: MediaQuery.sizeOf(context).height*0.014,
+                  fontFamily: "OpenSans_SemiBold",color: black.withOpacity(0.5)
+              ),
             ),
-          ),
-          Text(
-            '$title',
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: MediaQuery.sizeOf(context).height*0.017,
-              fontFamily: "OpenSans_Bold",color: black
+            Text(
+              '$title',
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: MediaQuery.sizeOf(context).height*0.017,
+                fontFamily: "OpenSans_Bold",color: black
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
 

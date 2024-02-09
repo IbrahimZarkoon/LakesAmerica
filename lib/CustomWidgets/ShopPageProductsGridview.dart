@@ -154,39 +154,89 @@ class ShopPageProdContainer extends StatelessWidget {
               Positioned(
                 bottom: MediaQuery.of(context).size.height * 0.005,
                 right: MediaQuery.of(context).size.height * 0.005,
-                child: InkWell(
-                  onTap: ()
-                  async{
-                    WishlistManager.addProductToWishlist(product).then((_) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${product.title} added to wishlist!')),
-                      );
-                    }).catchError((error) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Error adding ${product.title} to wishlist')),
-                      );
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: white,
-                      borderRadius: BorderRadius.circular(5),
-
-                    ),
-                    padding: EdgeInsets.all(5),
-                    child: Stack(
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          color: black, // Outline color (black)
-                          size: MediaQuery.of(context).size.height * 0.025,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                      onTap: ()
+                      async{
+                        WishlistManager.addProductToWishlist(product).then((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('${product.title} added to wishlist!')),
+                          );
+                        }).catchError((error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error adding ${product.title} to wishlist')),
+                          );
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(5),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              offset: Offset(0,0),
+                              blurRadius: 1.5,
+                              spreadRadius: 1,
+                            )
+                          ]
                         ),
+                        padding: EdgeInsets.all(5),
+                        child: Stack(
+                          children: [
+                            Icon(
+                              Icons.favorite_border_outlined,
+                              color: black, // Outline color (black)
+                              size: MediaQuery.of(context).size.height * 0.025,
+                            ),
 
-                      ],
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+
+                    SizedBox(height: MediaQuery.sizeOf(context).height*0.005,),
+
+                    InkWell(
+                      onTap: ()
+                      async{
+
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: white,
+                          borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                offset: Offset(0,0),
+                                blurRadius: 1.5,
+                                spreadRadius: 1,
+                              )
+                            ]
+                        ),
+                        padding: EdgeInsets.all(5),
+                        child: Stack(
+                          children: [
+                            Icon(
+                              Icons.add,
+                              color: primaryColor, // Outline color (black)
+                              size: MediaQuery.of(context).size.height * 0.025,
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              )
+              ),
+
+
             ],
           ),
           SizedBox(height: 8),
