@@ -356,7 +356,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
                               childAspect = 0.475;
                             });
                           },
-                          child: Icon(Icons.crop_square,color: black,size: MediaQuery.sizeOf(context).height*0.03,)),
+                          child: Icon(Icons.crop_square,color:maxCross == 0.25? secondaryColor.withOpacity(0.9) : black,size: MediaQuery.sizeOf(context).height*0.03,)),
 
                       SizedBox(width: MediaQuery.sizeOf(context).height*0.01,),
 
@@ -368,7 +368,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
                               childAspect = 0.95;
                             });
                           },
-                          child: Icon(Icons.grid_view_outlined,color: black,size: MediaQuery.sizeOf(context).height*0.03,)),
+                          child: Icon(Icons.grid_view_outlined,color:maxCross == 0.425? secondaryColor.withOpacity(0.9) : black,size: MediaQuery.sizeOf(context).height*0.03,)),
 
                     ],
                   ),
