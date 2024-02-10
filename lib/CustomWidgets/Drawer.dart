@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Constants/colors.dart';
+import 'package:lakesamerica/Routes/PageRoutes.dart';
 
 import '../Pages/Dashboard.dart';
 
@@ -390,7 +391,7 @@ class _CustomDrawerState extends State<CustomDrawer> with SingleTickerProviderSt
                   return GestureDetector(
                     onTap: () {
 
-                      //launchURL("https://www.whatsapp.com/");
+                      navigateToAllProductsPage(context, "", depList[index]);
                     },
                     child:  Column(
                       children: [

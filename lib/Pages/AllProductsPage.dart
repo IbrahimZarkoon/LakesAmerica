@@ -38,6 +38,9 @@ class _AllProductsPageState extends State<AllProductsPage> {
 
   }
 
+  double maxCross = 0.25;
+  double childAspect = 0.475;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -331,7 +334,47 @@ class _AllProductsPageState extends State<AllProductsPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
 
-                ShopPageProductsGridView()
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.01,vertical: MediaQuery.sizeOf(context).height*0.01),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+
+                    children: [
+
+                      Text("965 Items",style: TextStyle(
+                        color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.016
+                      ),),
+
+                      SizedBox(width: MediaQuery.sizeOf(context).height*0.01,),
+
+                      InkWell(
+                          onTap: ()
+                          {
+                            setState(() {
+                              maxCross = 0.25;
+                              childAspect = 0.475;
+                            });
+                          },
+                          child: Icon(Icons.crop_square,color: black,size: MediaQuery.sizeOf(context).height*0.03,)),
+
+                      SizedBox(width: MediaQuery.sizeOf(context).height*0.01,),
+
+                      InkWell(
+                          onTap: ()
+                          {
+                            setState(() {
+                              maxCross = 0.425;
+                              childAspect = 0.95;
+                            });
+                          },
+                          child: Icon(Icons.grid_view_outlined,color: black,size: MediaQuery.sizeOf(context).height*0.03,)),
+
+                    ],
+                  ),
+                ),
+
+                ShopPageProductsGridView.custom(maxCross, childAspect)
 
               ],
             )

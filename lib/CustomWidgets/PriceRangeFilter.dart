@@ -65,7 +65,7 @@ class _PriceRangeFilterState extends State<PriceRangeFilter> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               ),
               RangeSlider(
-                activeColor: primaryColor,
+                activeColor: secondaryColor,
                 inactiveColor: Color(0xffada8a8),
                 values: _selectedRange,
                 min: _minPrice,
@@ -87,19 +87,22 @@ class _PriceRangeFilterState extends State<PriceRangeFilter> {
                       .pop([_selectedRange.start, _selectedRange.end]);
                 },
                 child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding:
-                  EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: primaryColor,
-                  ),
-                  child: Text(
-                    'View results',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      border:
+                      Border(top: BorderSide(color: black.withOpacity(0.075)))),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.sizeOf(context).height * 0.02,
+                        vertical: MediaQuery.sizeOf(context).height * 0.0125),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: secondaryColor, borderRadius: BorderRadius.circular(2)),
+                    child: Text(
+                      "View results",
+                      style: TextStyle(
+                          fontSize: MediaQuery.sizeOf(context).height * 0.02,
+                          fontFamily: "OpenSans_SemiBold",
+                          color: Colors.white),
                     ),
                   ),
                 ),

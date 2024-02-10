@@ -6,6 +6,18 @@ import '../Models/Product.dart';
 import '../SharedPreferences/WishlistManager.dart';
 
 class ShopPageProductsGridView extends StatelessWidget {
+
+  ShopPageProductsGridView.custom(double max, double aspect){
+   this.childAspect = aspect;
+   this.maxCross = max;
+  }
+
+  ShopPageProductsGridView(){
+
+  }
+
+  double maxCross = 0.25;
+  double childAspect = 0.475;
   // Example products data
   final List<Product> products = [
     {
@@ -70,8 +82,8 @@ class ShopPageProductsGridView extends StatelessWidget {
       scrollDirection: Axis.vertical,
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: MediaQuery.sizeOf(context).height*0.25, // Maximum extent for items
-        childAspectRatio: 0.475, // Adjust the aspect ratio as needed
+        maxCrossAxisExtent: MediaQuery.sizeOf(context).height*maxCross, // Maximum extent for items
+        childAspectRatio: childAspect, // Adjust the aspect ratio as needed
         crossAxisSpacing: MediaQuery.sizeOf(context).height*0.015, // Spacing between columns
         mainAxisSpacing: MediaQuery.sizeOf(context).height*0.0, // Spacing between rows
       ),
