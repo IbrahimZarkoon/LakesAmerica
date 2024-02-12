@@ -16,8 +16,6 @@ class Product {
       title: json['title'] as String,
       category: json['category'] as String,
       price: json['price'] as String,
-
-
     );
   }
 

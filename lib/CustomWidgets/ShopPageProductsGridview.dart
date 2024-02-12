@@ -7,25 +7,31 @@ import '../SharedPreferences/WishlistManager.dart';
 
 class ShopPageProductsGridView extends StatelessWidget {
 
-  ShopPageProductsGridView.custom(double max, double aspect){
-   this.childAspect = aspect;
-   this.maxCross = max;
-  }
+  ShopPageProductsGridView.custom(
+      this.maxCross,
+      this.childAspect,
+      {List<Product>? snapshot, super.key} // Make `snapshot` an optional named parameter
+      ) : this.products = snapshot;
 
-  ShopPageProductsGridView(){
-
-  }
+  ShopPageProductsGridView({super.key});
 
   double maxCross = 0.25;
   double childAspect = 0.475;
   // Example products data
-  final List<Product> products = [
+  List<Product>? products = [
     {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F78%2F7e%2F787e1829d6187109fc0e4a86060a69524627d798.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Regular Fit Jacket',
       'category': 'Men Jackets',
       'price': '\$99',
       'discountAmount' : '30%',
+      'discountPrice' : '69',
+    },
+    {
+      'image': 'https://lp.arket.com/app006prod?set=quality%5B79%5D%2Csource%5B%2Fa1%2Ff9%2Fa1f9fe34758854edc6c1fb4f22fd95a1fe7be7b0.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D%2Ctarget%5Bhm.com%5D&call=url[file:/product/main]',
+      'title': 'Men Sweatshirts',
+      'category': 'Category 2',
+      'price': '\$199','discountAmount' : '30%',
       'discountPrice' : '69',
     },
     {
@@ -57,13 +63,7 @@ class ShopPageProductsGridView extends StatelessWidget {
       'discountAmount' : '30%',
       'discountPrice' : '69',
     },
-    {
-      'image': 'https://lp.arket.com/app006prod?set=quality%5B79%5D%2Csource%5B%2Fa1%2Ff9%2Fa1f9fe34758854edc6c1fb4f22fd95a1fe7be7b0.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D%2Ctarget%5Bhm.com%5D&call=url[file:/product/main]',
-      'title': 'Men Sweatshirts',
-      'category': 'Category 2',
-      'price': '\$199','discountAmount' : '30%',
-      'discountPrice' : '69',
-    },
+
     // Add more products as needed
   ].map((productMap) => Product(
     image: productMap['image']!,
@@ -87,9 +87,9 @@ class ShopPageProductsGridView extends StatelessWidget {
         crossAxisSpacing: MediaQuery.sizeOf(context).height*0.015, // Spacing between columns
         mainAxisSpacing: MediaQuery.sizeOf(context).height*0.0, // Spacing between rows
       ),
-      itemCount: products.length,
+      itemCount: products?.length ?? 0,
       itemBuilder: (context, index) {
-        return ShopPageProdContainer(product: products[index]);
+        return ShopPageProdContainer(product: products![index],maxCross: maxCross,);
       },
     );
   }
@@ -97,8 +97,8 @@ class ShopPageProductsGridView extends StatelessWidget {
 
 class ShopPageProdContainer extends StatelessWidget {
   final Product product;
-
-  const ShopPageProdContainer({Key? key, required this.product}) : super(key: key);
+  double? maxCross;
+  ShopPageProdContainer({Key? key, required this.product,this.maxCross}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +117,8 @@ class ShopPageProdContainer extends StatelessWidget {
                   width: double.infinity, // Makes the image take the full width of the container
                   height: MediaQuery.of(context).size.height * 0.3, // Fixed height for the image
                   fit: BoxFit.cover,
+                  alignment: maxCross == 0.5? Alignment.topCenter : Alignment.center,
+
                 ),
               ),
               if(double.parse(product.discountPrice) > 0)Positioned(
@@ -172,17 +174,45 @@ class ShopPageProdContainer extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     InkWell(
-                      onTap: ()
-                      async{
-                        WishlistManager.addProductToWishlist(product).then((_) {
+                      onTap: () async {
+                        // Hide any currently showing SnackBar
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+                        try {
+                          await WishlistManager.addProductToWishlist(product);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('${product.title} added to wishlist!')),
+                            SnackBar(
+                              content: Row(
+                                children: <Widget>[
+                                  Icon(Icons.check_circle, color: Colors.white),
+                                  SizedBox(width: 16),
+                                  Expanded(
+                                    child: Text(
+                                      '${product.title} added to wishlist!',
+                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              backgroundColor: Color(0xff007c19),
+                              action: SnackBarAction(
+                                label: 'UNDO',
+                                textColor: Colors.white,
+                                onPressed: () {
+                                  // Implement undo functionality
+                                },
+                              ),
+                              duration: Duration(seconds: 4),
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                              elevation: 6.0,
+                            ),
                           );
-                        }).catchError((error) {
+                        } catch (error) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error adding ${product.title} to wishlist')),
                           );
-                        });
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(

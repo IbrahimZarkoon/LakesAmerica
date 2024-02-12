@@ -96,7 +96,7 @@ class _PriceRangeFilterState extends State<PriceRangeFilter> {
                         vertical: MediaQuery.sizeOf(context).height * 0.0125),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: secondaryColor, borderRadius: BorderRadius.circular(2)),
+                        color: secondaryColor, borderRadius: BorderRadius.circular(10)),
                     child: Text(
                       "View results",
                       style: TextStyle(

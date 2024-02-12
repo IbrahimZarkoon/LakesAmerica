@@ -160,7 +160,7 @@ class _SortandFilterState extends State<SortandFilter>
                     vertical: MediaQuery.sizeOf(context).height * 0.0125),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    color: black, borderRadius: BorderRadius.circular(2)),
+                    color: black, borderRadius: BorderRadius.circular(10)),
                 child: Text(
                   "View results",
                   style: TextStyle(

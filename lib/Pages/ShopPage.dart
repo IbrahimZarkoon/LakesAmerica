@@ -28,6 +28,7 @@ class _ShopPageState extends State<ShopPage> {
 
           //Free Shipping Widget
           AppBar(
+            scrolledUnderElevation: 0,
             automaticallyImplyLeading: false,
             toolbarHeight: kToolbarHeight/1.5,
             backgroundColor: white,

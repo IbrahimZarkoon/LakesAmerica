@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../Constants/colors.dart';
 import '../Pages/SearchPage.dart';
+import '../Routes/PageRoutes.dart';
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key});
@@ -54,7 +55,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
       actions: [
 
-        Icon(Icons.shopping_bag_outlined,size: MediaQuery.sizeOf(context).height*0.03,color: Colors.black.withOpacity(0.5),),
+        InkWell(
+            onTap: ()
+            {
+              navigateToCartPage(context);
+            },
+            child: Icon(Icons.shopping_bag_outlined,size: MediaQuery.sizeOf(context).height*0.03,color: Colors.black.withOpacity(0.5),)),
 
         SizedBox(width: MediaQuery.sizeOf(context).width*0.025,),
 

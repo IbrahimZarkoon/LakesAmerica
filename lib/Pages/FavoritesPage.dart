@@ -84,29 +84,8 @@ class _FavoritesPageState extends State<FavoritesPage> {
                     return Center(child: Text("Error loading wishlist"));
                   } else if (snapshot.hasData) {
                     if (snapshot.data!.length > 0) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015),
-                        child: GridView.builder(
-                          padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.015),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          physics: NeverScrollableScrollPhysics(),
-                          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: MediaQuery.of(context).size.height * 0.25, // Maximum extent for items
-                            childAspectRatio: MediaQuery.of(context).size.height * 0.00055,
-                            crossAxisSpacing: MediaQuery.of(context).size.height * 0.015, // Spacing between columns
-                            mainAxisSpacing: MediaQuery.of(context).size.height * 0.0, // Spacing between rows
-                          ),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            final product = snapshot.data![index];
-                            return FavPageProdContainer(
-                              product: product,
-                              onRemove: _removeProductAndUpdate,
-                            ); // Use your existing ProductContainer widget
-                          },
-                        ),
-                      );
+                      // return ShopPageProductsGridView.custom(0.25, 0.475,snapshot: snapshot.data!,);
+                      return FavProductsGrid(context, snapshot.data!, _removeProductAndUpdate);
                     } else {
                       return noWishlistProducts();
                     }

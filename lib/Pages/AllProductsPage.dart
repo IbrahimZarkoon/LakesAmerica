@@ -5,6 +5,7 @@ import 'package:lakesamerica/CustomWidgets/ShopPageProductsGridview.dart';
 import '../Constants/colors.dart';
 import '../CustomWidgets/PriceRangeFilter.dart';
 import '../CustomWidgets/Sort&Filter.dart';
+import '../Models/Product.dart';
 
 class AllProductsPage extends StatefulWidget {
    AllProductsPage({super.key, required this.title, required this.img});
@@ -40,6 +41,63 @@ class _AllProductsPageState extends State<AllProductsPage> {
 
   double maxCross = 0.25;
   double childAspect = 0.475;
+
+
+  List<Product>? allProducts = [
+    {
+      'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F78%2F7e%2F787e1829d6187109fc0e4a86060a69524627d798.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
+      'title': 'Regular Fit Jacket',
+      'category': 'Men Jackets',
+      'price': '\$99',
+      'discountAmount' : '30%',
+      'discountPrice' : '69',
+    },
+    {
+      'image': 'https://lp.arket.com/app006prod?set=quality%5B79%5D%2Csource%5B%2Fa1%2Ff9%2Fa1f9fe34758854edc6c1fb4f22fd95a1fe7be7b0.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D%2Ctarget%5Bhm.com%5D&call=url[file:/product/main]',
+      'title': 'Men Sweatshirts',
+      'category': 'Category 2',
+      'price': '\$199','discountAmount' : '30%',
+      'discountPrice' : '69',
+    },
+    {
+      'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F5a%2Fc2%2F5ac237b7320e3fde2b7dd25abe30c2ec3e75bedf.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
+      'title': 'Regular Fit Twill top',
+      'category': 'Men Tops',
+      'price': '\$199','discountAmount' : '',
+      'discountPrice' : '0',
+    },
+    {
+      'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F9a%2F32%2F9a326a674d8098187b56c96e3355a1ab15b84d6e.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
+      'title': 'Regular Fit Twill Jacket',
+      'category': 'Men Jacket',
+      'price': '\$99','discountAmount' : '',
+      'discountPrice' : '0',
+    },
+    {
+      'image': 'https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F2e%2Fdd%2F2edd3ef227c08e59274ab4818934c8174aef2f45.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]',
+      'title': 'Straight Regular Jeans',
+      'category': 'Men Pants',
+      'price': '\$199','discountAmount' : '30%',
+      'discountPrice' : '69',
+    },
+    {
+      'image': 'https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F79%2F44%2F7944a885374245793a75d963b0d2d8c5121eb7f1.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]',
+      'title': 'Relaxed Fit Zip-top sweatshirt',
+      'category': 'Men Sweatshirt',
+      'price': '\$99',
+      'discountAmount' : '30%',
+      'discountPrice' : '69',
+    },
+
+    // Add more products as needed
+  ].map((productMap) => Product(
+    image: productMap['image']!,
+    title: productMap['title']!,
+    category: productMap['category']!,
+    price: productMap['price']!,
+    discountAmount: productMap['discountAmount'] ?? "0.0",
+    discountPrice: productMap['discountPrice'] ?? "0.0",
+  )).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -356,7 +414,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
                               childAspect = 0.475;
                             });
                           },
-                          child: Icon(Icons.crop_square,color:maxCross == 0.25? secondaryColor.withOpacity(0.9) : black,size: MediaQuery.sizeOf(context).height*0.03,)),
+                          child: Icon(Icons.grid_view_outlined,color:maxCross == 0.25? secondaryColor.withOpacity(0.9) : black,size: maxCross == 0.25? MediaQuery.sizeOf(context).height*0.0275 : MediaQuery.sizeOf(context).height*0.025,)),
 
                       SizedBox(width: MediaQuery.sizeOf(context).height*0.01,),
 
@@ -364,17 +422,17 @@ class _AllProductsPageState extends State<AllProductsPage> {
                           onTap: ()
                           {
                             setState(() {
-                              maxCross = 0.425;
+                              maxCross = 0.5;
                               childAspect = 0.95;
                             });
                           },
-                          child: Icon(Icons.grid_view_outlined,color:maxCross == 0.425? secondaryColor.withOpacity(0.9) : black,size: MediaQuery.sizeOf(context).height*0.03,)),
+                          child: Icon(Icons.crop_square,color:maxCross == 0.5? secondaryColor.withOpacity(0.9) : black,size:maxCross == 0.5? MediaQuery.sizeOf(context).height*0.03 : MediaQuery.sizeOf(context).height*0.025,)),
 
                     ],
                   ),
                 ),
 
-                ShopPageProductsGridView.custom(maxCross, childAspect)
+                ShopPageProductsGridView.custom(maxCross, childAspect,snapshot: allProducts,)
 
               ],
             )

@@ -16,6 +16,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Lakes America',
       theme: ThemeData(
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.green, // Use your primary color here
+          ).copyWith(
+            secondary: Colors.green, // Optional: if you also want to change the color of floating action buttons, etc.
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: primaryColor),
+            ),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10),borderSide: BorderSide(color: black.withOpacity(0.5))),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: primaryColor),
+            ),
+          ),
         primaryColor: primaryColor,
         //colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

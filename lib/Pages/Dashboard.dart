@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lakesamerica/Constants/colors.dart';
 import 'package:lakesamerica/Pages/HomePage.dart';
 import 'package:lakesamerica/Pages/ShopPage.dart';
+import 'package:lakesamerica/Pages/SignInPage.dart';
 
 import '../CustomWidgets/AppBar.dart';
 import '../CustomWidgets/Drawer.dart';
@@ -24,9 +25,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     ShopPage(),
     Container(color: Colors.blue,width: 100,height: 2000),
     FavoritesPage(),
-    Container(color: Colors.blue,width: 100,height: 2000),
-
-
+    SignInPage()
   ];
 
 
@@ -46,7 +45,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
       child: SafeArea(
         child: Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(_tabController.index == 0 ? 0 : kToolbarHeight),
+            preferredSize: Size.fromHeight((_tabController.index == 0 || _tabController.index == 4) ? 0 : kToolbarHeight),
             child: _tabController.index == 3
                 ? AppBar(
               automaticallyImplyLeading: false,
@@ -165,7 +164,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             iconMargin: const EdgeInsets.only(bottom: 3),
             icon: widget.tabindex == 4? Icon(Icons.person,size: MediaQuery.sizeOf(context).height*0.03) : Icon(Icons.person_outline,size: MediaQuery.sizeOf(context).height*0.025,),
 
-            text: 'Zarkoon',
+            text: 'Guest',
           ),
         ],
       ),

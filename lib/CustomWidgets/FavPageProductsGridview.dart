@@ -64,52 +64,81 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
                   ),
                 ),
               ),
-              // Positioned(
-              //   top: 8.0,
-              //   right: 8.0,
-              //   child: Container(
-              //     padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
-              //     decoration: BoxDecoration(
-              //       color: secondaryColor, // Customize the color as needed
-              //       borderRadius: BorderRadius.circular(5.0),
-              //     ),
-              //     child: Text(
-              //       'New Arrival',
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //         fontSize: 12.0, // Adjust the font size as needed
-              //       ),
-              //     ),
-              //   ),
-              // ),
+
               Positioned(
                 bottom: MediaQuery.of(context).size.height * 0.005,
                 right: MediaQuery.of(context).size.height * 0.005,
-                child: InkWell(
-                  onTap: () async {
-                    WishlistManager.removeProductFromWishlist(widget.product).then((_) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${widget.product.title} removed from wishlist!')),
-                      );
-                      widget.onRemove(); // Call the callback function
-                    }).catchError((error) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Error removing ${widget.product.title} from wishlist')),
-                      );
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: white,
-                      borderRadius: BorderRadius.circular(5),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        WishlistManager.removeProductFromWishlist(widget.product).then((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('${widget.product.title} removed from wishlist!')),
+                          );
+                          widget.onRemove(); // Call the callback function
+                        }).catchError((error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error removing ${widget.product.title} from wishlist')),
+                          );
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                offset: Offset(0,0),
+                                blurRadius: 1.5,
+                                spreadRadius: 1,
+                              )
+                            ]
+                        ),
+                        padding: EdgeInsets.all(5),
+                        child: Icon(
+                          CupertinoIcons.delete,
+                          color: black,
+                          size: MediaQuery.of(context).size.height * 0.025,
+                        ),
+                      ),
                     ),
-                    padding: EdgeInsets.all(5),
-                    child: Icon(
-                      CupertinoIcons.delete,
-                      color: black,
-                      size: MediaQuery.of(context).size.height * 0.025,
+
+                    SizedBox(height: MediaQuery.sizeOf(context).height*0.005,),
+
+                    InkWell(
+                      onTap: ()
+                      async{
+
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                offset: Offset(0,0),
+                                blurRadius: 1.5,
+                                spreadRadius: 1,
+                              )
+                            ]
+                        ),
+                        padding: EdgeInsets.all(5),
+                        child: Stack(
+                          children: [
+                            Icon(
+                              Icons.add,
+                              color: primaryColor, // Outline color (black)
+                              size: MediaQuery.of(context).size.height * 0.025,
+                            ),
+
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               )
             ],
@@ -229,43 +258,36 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
             ),
           ),
 
-          SizedBox(height: 8),
-
-          // Add Button Container
-          Container(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.sizeOf(context).height*0.05
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: primaryColor,
-                boxShadow: [
-                  BoxShadow(
-                      color: black.withOpacity(0.15),
-                      spreadRadius: 1,
-                      blurRadius: 1.5,
-                      offset: Offset(0,0)
-                  )
-                ]
-            ),
-            padding: EdgeInsets.symmetric(vertical: MediaQuery.sizeOf(context).height*0.015),
-            //alignment: Alignment.bottomCenter,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.shopping_bag_outlined,color: white,size: MediaQuery.sizeOf(context).height*0.0225,),
-                SizedBox(width: MediaQuery.sizeOf(context).height*0.005,),
-                Text("Add",style: TextStyle(
-                  color: white,
-                  fontFamily: "OpenSans_Bold",
-                  fontSize: MediaQuery.sizeOf(context).height*0.016
-                ),),
-              ],
-            ),
-          ),
         ],
       ),
     );
   }
+}
+
+
+Widget FavProductsGrid(BuildContext context,List<Product> snapshot,Function removeProductAndUpdate)
+{
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015),
+    child: GridView.builder(
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.015),
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: MediaQuery.of(context).size.height * 0.25, // Maximum extent for items
+        childAspectRatio: MediaQuery.of(context).size.height * 0.0006,
+        crossAxisSpacing: MediaQuery.of(context).size.height * 0.015, // Spacing between columns
+        mainAxisSpacing: MediaQuery.of(context).size.height * 0.0, // Spacing between rows
+      ),
+      itemCount: snapshot.length,
+      itemBuilder: (context, index) {
+        final product = snapshot[index];
+        return FavPageProdContainer(
+          product: product,
+          onRemove: removeProductAndUpdate,
+        ); // Use your existing ProductContainer widget
+      },
+    ),
+  );
 }
