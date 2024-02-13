@@ -51,6 +51,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'price': '\$99',
       'discountAmount' : '30%',
       'discountPrice' : '69',
+      'newArrival' : false,
     },
     {
       'image': 'https://lp.arket.com/app006prod?set=quality%5B79%5D%2Csource%5B%2Fa1%2Ff9%2Fa1f9fe34758854edc6c1fb4f22fd95a1fe7be7b0.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D%2Ctarget%5Bhm.com%5D&call=url[file:/product/main]',
@@ -58,12 +59,14 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'category': 'Category 2',
       'price': '\$199','discountAmount' : '30%',
       'discountPrice' : '69',
+      'newArrival' : true,
     },
     {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F5a%2Fc2%2F5ac237b7320e3fde2b7dd25abe30c2ec3e75bedf.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Regular Fit Twill top',
       'category': 'Men Tops',
       'price': '\$199','discountAmount' : '',
+      'newArrival' : true,
       'discountPrice' : '0',
     },
     {
@@ -71,6 +74,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'title': 'Regular Fit Twill Jacket',
       'category': 'Men Jacket',
       'price': '\$99','discountAmount' : '',
+      'newArrival' : false,
       'discountPrice' : '0',
     },
     {
@@ -78,6 +82,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'title': 'Straight Regular Jeans',
       'category': 'Men Pants',
       'price': '\$199','discountAmount' : '30%',
+      'newArrival' : true,
       'discountPrice' : '69',
     },
     {
@@ -86,17 +91,18 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'category': 'Men Sweatshirt',
       'price': '\$99',
       'discountAmount' : '30%',
+      'newArrival' : false,
       'discountPrice' : '69',
     },
 
     // Add more products as needed
   ].map((productMap) => Product(
-    image: productMap['image']!,
-    title: productMap['title']!,
-    category: productMap['category']!,
-    price: productMap['price']!,
-    discountAmount: productMap['discountAmount'] ?? "0.0",
-    discountPrice: productMap['discountPrice'] ?? "0.0",
+    image: "${productMap['image']!}",
+    title: "${productMap['title']!}",
+    category: "${productMap['category']!}",
+    price: "${productMap['price']!}",
+    discountAmount: "${productMap['discountAmount'] ?? "0.0"}",
+    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool,
   )).toList();
 
   @override
@@ -104,6 +110,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: white,
         elevation: 0,
         automaticallyImplyLeading: false,

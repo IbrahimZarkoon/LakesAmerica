@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../Constants/colors.dart';
 import '../Models/Product.dart';
 import '../SharedPreferences/WishlistManager.dart';
+import 'CustomSnackBar.dart';
 import 'ShopPageProductsGridview.dart';
 
 class FavPageProdContainer extends StatefulWidget {
@@ -34,7 +35,7 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
                 child: Image.network(
                   widget.product.image,
                   width: double.infinity, // Makes the image take the full width of the container
-                  height: MediaQuery.of(context).size.height * 0.225, // Fixed height for the image
+                  height: MediaQuery.of(context).size.height * 0.3, // Fixed height for the image
                   fit: BoxFit.cover,
                 ),
               ),
@@ -72,15 +73,16 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
                   children: [
                     InkWell(
                       onTap: () async {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+
                         WishlistManager.removeProductFromWishlist(widget.product).then((_) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('${widget.product.title} removed from wishlist!')),
-                          );
+                          CustomSnackBar.show(context, "${widget.product.title} removed from wishlist!",action: SnackBarAction(label: "Undo", onPressed: () => WishlistManager.addProductToWishlist(widget.product)));
+
                           widget.onRemove(); // Call the callback function
                         }).catchError((error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error removing ${widget.product.title} from wishlist')),
-                          );
+                          CustomSnackBar.show(context, 'Error removing ${widget.product.title} from wishlist');
+
                         });
                       },
                       child: Container(
@@ -177,11 +179,11 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
             widget.product.price,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          Text("New Arrival",style: TextStyle(
+          widget.product.newArrival? Text("New Arrival",style: TextStyle(
               fontFamily: "OpenSans_SemiBold",
               fontSize: MediaQuery.sizeOf(context).height*0.014,
               color: black.withOpacity(0.6)
-          ),),
+          ),) : SizedBox(),
 
           Row(
             children: [
@@ -276,7 +278,7 @@ Widget FavProductsGrid(BuildContext context,List<Product> snapshot,Function remo
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: MediaQuery.of(context).size.height * 0.25, // Maximum extent for items
-        childAspectRatio: MediaQuery.of(context).size.height * 0.0006,
+        childAspectRatio: MediaQuery.of(context).size.height * 0.000525,
         crossAxisSpacing: MediaQuery.of(context).size.height * 0.015, // Spacing between columns
         mainAxisSpacing: MediaQuery.of(context).size.height * 0.0, // Spacing between rows
       ),

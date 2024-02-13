@@ -11,7 +11,7 @@ Widget Headings(BuildContext context,String heading){
 
         Text(_Heading,overflow: TextOverflow.ellipsis,
             style:
-             TextStyle(color: Colors.black.withOpacity(0.8),fontWeight: FontWeight.normal,fontFamily: "OpenSans_Bold", fontSize: 18)),
+             TextStyle(color: Colors.black.withOpacity(0.8),fontFamily: "OpenSans_Bold", fontSize: MediaQuery.sizeOf(context).height*0.024,)),
       ],
     ),
   );

@@ -5,11 +5,13 @@ class Product {
   final String price;
   final String discountPrice;
   final String discountAmount;
+  final bool newArrival;
 
-  Product({required this.image, required this.title, required this.category, required this.price, required this.discountAmount, required  this.discountPrice});
+  Product({required this.image, required this.title, required this.category, required this.price, required this.discountAmount, required  this.discountPrice, required  this.newArrival});
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
+      newArrival : json['newArrival'] as bool,
       discountPrice : json['discountPrice'] as String,
       discountAmount : json['discountAmount'] as String,
       image: json['image'] as String,
@@ -19,8 +21,9 @@ class Product {
     );
   }
 
-  Map<String, String> toJson() {
+  Map<String, dynamic> toJson() {
     return {
+      'newArrival': newArrival,
       'discountPrice': discountPrice,
       'discountAmount': discountAmount,
       'image': image,

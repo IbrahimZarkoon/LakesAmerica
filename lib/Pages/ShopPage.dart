@@ -117,6 +117,7 @@ class _ShopPageState extends State<ShopPage> {
 
           TrendingContainer(title: "Hoodies & Sweatshirts",
               shortDesc: "Solid looks for year-round comfort and style.",
+              price: "19.99",
               img: "https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F98%2F0b%2F980b003a6064d82faa0884ec5f027b57dbb2bd68.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]"),
 
           ShopPageProductsGridView()

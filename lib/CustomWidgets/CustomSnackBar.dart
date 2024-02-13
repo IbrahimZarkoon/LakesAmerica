@@ -5,6 +5,8 @@ class CustomSnackBar {
   static show(BuildContext context, String message, {SnackBarAction? action}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        dismissDirection: DismissDirection.vertical,
+
         content: Row(
           children: <Widget>[
             Icon(Icons.check_circle, color: Colors.white),

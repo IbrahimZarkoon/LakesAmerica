@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Constants/colors.dart';
+import 'package:lakesamerica/CustomWidgets/CustomSnackBar.dart';
 
 import '../Models/Product.dart';
 import '../SharedPreferences/WishlistManager.dart';
@@ -26,6 +27,7 @@ class ShopPageProductsGridView extends StatelessWidget {
       'price': '\$99',
       'discountAmount' : '30%',
       'discountPrice' : '69',
+      'newArrival' : false,
     },
     {
       'image': 'https://lp.arket.com/app006prod?set=quality%5B79%5D%2Csource%5B%2Fa1%2Ff9%2Fa1f9fe34758854edc6c1fb4f22fd95a1fe7be7b0.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D%2Ctarget%5Bhm.com%5D&call=url[file:/product/main]',
@@ -33,12 +35,14 @@ class ShopPageProductsGridView extends StatelessWidget {
       'category': 'Category 2',
       'price': '\$199','discountAmount' : '30%',
       'discountPrice' : '69',
+      'newArrival' : true,
     },
     {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F5a%2Fc2%2F5ac237b7320e3fde2b7dd25abe30c2ec3e75bedf.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Regular Fit Twill top',
       'category': 'Men Tops',
       'price': '\$199','discountAmount' : '',
+      'newArrival' : true,
       'discountPrice' : '0',
     },
     {
@@ -46,6 +50,7 @@ class ShopPageProductsGridView extends StatelessWidget {
       'title': 'Regular Fit Twill Jacket',
       'category': 'Men Jacket',
       'price': '\$99','discountAmount' : '',
+      'newArrival' : false,
       'discountPrice' : '0',
     },
     {
@@ -53,6 +58,7 @@ class ShopPageProductsGridView extends StatelessWidget {
       'title': 'Straight Regular Jeans',
       'category': 'Men Pants',
       'price': '\$199','discountAmount' : '30%',
+      'newArrival' : true,
       'discountPrice' : '69',
     },
     {
@@ -61,17 +67,18 @@ class ShopPageProductsGridView extends StatelessWidget {
       'category': 'Men Sweatshirt',
       'price': '\$99',
       'discountAmount' : '30%',
+      'newArrival' : false,
       'discountPrice' : '69',
     },
 
     // Add more products as needed
   ].map((productMap) => Product(
-    image: productMap['image']!,
-    title: productMap['title']!,
-    category: productMap['category']!,
-    price: productMap['price']!,
-    discountAmount: productMap['discountAmount'] ?? "0.0",
-    discountPrice: productMap['discountPrice'] ?? "0.0",
+    image: "${productMap['image']!}",
+    title: "${productMap['title']!}",
+    category: "${productMap['category']!}",
+    price: "${productMap['price']!}",
+    discountAmount: "${productMap['discountAmount'] ?? "0.0"}",
+    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool,
   )).toList();
 
   @override
@@ -147,7 +154,7 @@ class ShopPageProdContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
+              product.newArrival? Positioned(
                 top: 8.0,
                 right: 8.0,
                 child: Container(
@@ -164,7 +171,7 @@ class ShopPageProdContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
+              ) : SizedBox(),
               Positioned(
                 bottom: MediaQuery.of(context).size.height * 0.005,
                 right: MediaQuery.of(context).size.height * 0.005,
@@ -180,38 +187,9 @@ class ShopPageProdContainer extends StatelessWidget {
 
                         try {
                           await WishlistManager.addProductToWishlist(product);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Row(
-                                children: <Widget>[
-                                  Icon(Icons.check_circle, color: Colors.white),
-                                  SizedBox(width: 16),
-                                  Expanded(
-                                    child: Text(
-                                      '${product.title} added to wishlist!',
-                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              backgroundColor: Color(0xff007c19),
-                              action: SnackBarAction(
-                                label: 'UNDO',
-                                textColor: Colors.white,
-                                onPressed: () {
-                                  // Implement undo functionality
-                                },
-                              ),
-                              duration: Duration(seconds: 4),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                              elevation: 6.0,
-                            ),
-                          );
+                          CustomSnackBar.show(context, "${product.title} added to wishlist!",action: SnackBarAction(label: "Undo", onPressed: () => WishlistManager.removeProductFromWishlist(product)));
                         } catch (error) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error adding ${product.title} to wishlist')),
-                          );
+                          CustomSnackBar.show(context, 'Error adding ${product.title} to wishlist');
                         }
                       },
                       child: Container(

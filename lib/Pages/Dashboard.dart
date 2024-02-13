@@ -8,6 +8,7 @@ import 'package:lakesamerica/Pages/SignInPage.dart';
 import '../CustomWidgets/AppBar.dart';
 import '../CustomWidgets/Drawer.dart';
 import 'FavoritesPage.dart';
+import 'OffersPage.dart';
 
 class DashboardPage extends StatefulWidget {
   DashboardPage({Key? key, required this.tabindex}) : super(key: key);
@@ -23,7 +24,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   final userTabs = [
     HomePage(),
     ShopPage(),
-    Container(color: Colors.blue,width: 100,height: 2000),
+    OffersPage(),
     FavoritesPage(),
     SignInPage()
   ];

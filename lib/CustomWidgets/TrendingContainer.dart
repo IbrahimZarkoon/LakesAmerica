@@ -6,10 +6,11 @@ import '../Constants/colors.dart';
 import '../Routes/PageRoutes.dart';
 
 class TrendingContainer extends StatelessWidget {
-  const TrendingContainer({super.key, required this.title, required this.shortDesc, required this.img});
+  const TrendingContainer({super.key, required this.title, required this.shortDesc, required this.img, required this.price});
   final String title;
   final String shortDesc;
   final String img;
+  final String price;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class TrendingContainer extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(vertical: MediaQuery.sizeOf(context).height*0.025),
               width: double.infinity, // Full width of the parent
-              height: MediaQuery.sizeOf(context).height*0.425,
+              height: MediaQuery.sizeOf(context).height*0.45,
               foregroundDecoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: [Colors.transparent, black.withOpacity(0.1)],
@@ -57,10 +58,10 @@ class TrendingContainer extends StatelessWidget {
             Positioned(
                 left: 15,
                 top: MediaQuery.sizeOf(context).height*0.175,
-                child: PriceTag(price: "19.99")),
+                child: PriceTag(price: price)),
 
             Positioned(
-              left: 0,right: 0,bottom: MediaQuery.sizeOf(context).height*0.075,
+              left: MediaQuery.sizeOf(context).height*0.015,right: MediaQuery.sizeOf(context).height*0.015,bottom: MediaQuery.sizeOf(context).height*0.075,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -79,7 +80,7 @@ class TrendingContainer extends StatelessWidget {
                   Text(
                     "$shortDesc",
                     textAlign: TextAlign.center,
-                    maxLines: 1,
+                    maxLines: 2,
                     style: TextStyle(
                       color: black,fontSize: MediaQuery.sizeOf(context).height*0.017,
                       fontFamily: "OpenSans_SemiBold", // Optional: change the font weight

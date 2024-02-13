@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Pages/Dashboard.dart';
 
 import '../Constants/colors.dart';
+import '../CustomWidgets/PaymentMethodWidget.dart';
 import '../Routes/PageRoutes.dart';
 
 class CartPage extends StatefulWidget {
@@ -62,6 +64,14 @@ class _CartPageState extends State<CartPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+        
+              SizedBox(height: MediaQuery.sizeOf(context).height*0.04),
+        
+              Image.asset('assets/images/ShoppingBagIcon.png',height: MediaQuery.sizeOf(context).height*0.15,fit: BoxFit.cover,),
+        
+              SizedBox(height: MediaQuery.sizeOf(context).height*0.05),
+        
+        
               Text(
                 'Your shopping bag is empty',
                 maxLines: 1,
@@ -70,7 +80,7 @@ class _CartPageState extends State<CartPage> {
               ),
         
               SizedBox(height: MediaQuery.sizeOf(context).height*0.03),
-
+        
               InkWell(
                 onTap: ()
                 {
@@ -121,7 +131,7 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ],
               ),
-
+        
               //Create acc Container
               Container(
                 padding: EdgeInsets.symmetric(
@@ -149,25 +159,63 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
               SizedBox(height: MediaQuery.sizeOf(context).height*0.03),
-
+        
               Container(
                 color: black.withOpacity(0.05),
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height*0.002,
               ),
+        
+              SizedBox(height: MediaQuery.sizeOf(context).height*0.0125),
+        
+              Container(
+                width: MediaQuery.sizeOf(context).width,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("We accept:",textAlign: TextAlign.start,style: TextStyle(
+                      color: black,fontSize: MediaQuery.sizeOf(context).height*0.015,fontFamily: "OpenSans_SemiBold"
+                    ),),
+        
+                    PaymentMethodWidget(),
 
-              SizedBox(height: MediaQuery.sizeOf(context).height*0.03),
+                    Text("Final prices and shipping costs will be confirmed at checkout.",textAlign: TextAlign.start,style: TextStyle(
+                        color: black.withOpacity(0.6),fontSize: MediaQuery.sizeOf(context).height*0.0135,fontFamily: "OpenSans_SemiBold"
+                    ),),
 
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                    SizedBox(height: MediaQuery.sizeOf(context).height*0.005,),
 
-                  Text("We accept")
+                    RichText(
+                      text: TextSpan(
+                        style: TextStyle(color: Colors.black), // Default text style
+                        children: <TextSpan>[
+                          TextSpan(text: '30-day returns, ',style: TextStyle(
+                      color: black.withOpacity(0.6),fontSize: MediaQuery.sizeOf(context).height*0.0135,fontFamily: "OpenSans_SemiBold"
+                    ),),
+                          TextSpan(text: 'Read more about our ',style: TextStyle(
+                              color: black.withOpacity(0.6),fontSize: MediaQuery.sizeOf(context).height*0.0135,fontFamily: "OpenSans_SemiBold"
+                          ),),
+                          TextSpan(
+                            text: 'return and refund policy.',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                          color: black.withOpacity(0.6),fontSize: MediaQuery.sizeOf(context).height*0.0135,fontFamily: "OpenSans_SemiBold"
+                    ),
 
-                ],
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                // Handle the tap, possibly navigating to a new Widget that explains the policy in detail
+                                print('Return and Refund Policy tapped');
+                              },
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               )
-
+        
             ],
           ),
         ),

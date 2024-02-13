@@ -36,6 +36,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
       backgroundColor: white,
       body: RefreshIndicator(
         color: primaryColor,
+        backgroundColor: white,
+        edgeOffset: 0.5,
+        displacement: MediaQuery.sizeOf(context).height*0.2,
         onRefresh: () async {
           await WishlistManager.getWishlistProducts();
         },
@@ -103,10 +106,12 @@ class _FavoritesPageState extends State<FavoritesPage> {
   }
 
   Widget noWishlistProducts() {
-    return Stack(
-      children: [
-        Center(
-          child: Container(
+    return Container(
+      height: MediaQuery.sizeOf(context).height/2,
+      alignment: Alignment.center,
+      child: Stack(
+        children: [
+          Container(
             margin: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.height * 0.015),
             child: Column(
@@ -138,44 +143,44 @@ class _FavoritesPageState extends State<FavoritesPage> {
               ],
             ),
           ),
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: MediaQuery.of(context).size.height * 0.02,
-          child: Center(
-            child: InkWell(
-              onTap: () {
-                // Add your onTap functionality here
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => DashboardPage(tabindex: 1)));
-              },
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.015,
-                    bottom: MediaQuery.of(context).size.height * 0.015),
-                margin: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.height * 0.015),
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  "Add to favorites",
-                  style: TextStyle(
-                    color: white,
-                    fontSize: MediaQuery.of(context).size.height * 0.018,
-                    fontFamily: "OpenSans_SemiBold",
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: MediaQuery.of(context).size.height * 0.02,
+            child: Center(
+              child: InkWell(
+                onTap: () {
+                  // Add your onTap functionality here
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => DashboardPage(tabindex: 1)));
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.015,
+                      bottom: MediaQuery.of(context).size.height * 0.015),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.height * 0.015),
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    "Add to favorites",
+                    style: TextStyle(
+                      color: white,
+                      fontSize: MediaQuery.of(context).size.height * 0.018,
+                      fontFamily: "OpenSans_SemiBold",
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
