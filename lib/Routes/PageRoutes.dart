@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:lakesamerica/Models/Product.dart';
 import 'package:lakesamerica/Pages/CartPage.dart';
 import 'package:lakesamerica/Pages/SignInPage.dart';
+import 'package:lakesamerica/Pages/SingleProductPage.dart';
 
 import '../Pages/AllProductsPage.dart';
 
@@ -27,6 +29,15 @@ void navigateToSignInPage(BuildContext context) {
     context,
     CupertinoPageRoute(
       builder: (_) => SignInPage(),
+    ),
+  );
+}
+
+void navigateToSingleProductPage(BuildContext context,Product product) {
+  Navigator.push(
+    context,
+    CupertinoPageRoute(
+      builder: (_) => SingleProductPage(product: product),
     ),
   );
 }

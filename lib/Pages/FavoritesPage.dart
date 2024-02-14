@@ -41,6 +41,9 @@ class _FavoritesPageState extends State<FavoritesPage> {
         displacement: MediaQuery.sizeOf(context).height*0.2,
         onRefresh: () async {
           await WishlistManager.getWishlistProducts();
+          setState(() {
+
+          });
         },
         child: CustomScrollView(
           physics: BouncingScrollPhysics(),

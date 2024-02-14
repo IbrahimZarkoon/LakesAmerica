@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../Constants/colors.dart';
 import '../Models/Product.dart';
+import '../Routes/PageRoutes.dart';
 import '../SharedPreferences/WishlistManager.dart';
 import 'CustomSnackBar.dart';
 import 'ShopPageProductsGridview.dart';
@@ -97,232 +98,248 @@ class OffersPageProductSlider extends StatelessWidget {
   }
 }
 
-class OffersPageProductContainer extends StatelessWidget {
+class OffersPageProductContainer extends StatefulWidget {
   final Product product;
 
   OffersPageProductContainer({Key? key, required this.product}) : super(key: key);
 
   @override
+  State<OffersPageProductContainer> createState() => _OffersPageProductContainerState();
+}
+
+class _OffersPageProductContainerState extends State<OffersPageProductContainer> {
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: MediaQuery.sizeOf(context).height*0.015),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(
-            width: MediaQuery.sizeOf(context).height*0.225,
+    return InkWell(
+      onTap: ()
+      {
+        navigateToSingleProductPage(context,widget.product);
+      },
+      child: Container(
+        margin: EdgeInsets.only(right: MediaQuery.sizeOf(context).height*0.015),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              width: MediaQuery.sizeOf(context).height*0.225,
 
-            child: Stack(
-              //alignment: Alignment.topRight,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
+              child: Stack(
+                //alignment: Alignment.topRight,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                      boxShadow: [
+                        BoxShadow(
+                          color: black.withOpacity(0.1),
+                          spreadRadius: 1,
+                          offset: Offset(0,0),
+                          blurRadius: 1.5
+                        )
+                      ]
+                    ),
+                    child: ClipRRect(
                       borderRadius: BorderRadius.circular(3),
-                    boxShadow: [
-                      BoxShadow(
-                        color: black.withOpacity(0.1),
-                        spreadRadius: 1,
-                        offset: Offset(0,0),
-                        blurRadius: 1.5
-                      )
-                    ]
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(3),
-                    child: Image.network(
-                      product.image,
-                      width: double.infinity, // Makes the image take the full width of the container
-                      height: MediaQuery.of(context).size.height * 0.3, // Fixed height for the image
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                if(double.parse(product.discountPrice) > 0)Positioned(
-                  bottom: MediaQuery.sizeOf(context).height*0.055,
-                  left: 0.0,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.0125, vertical: MediaQuery.sizeOf(context).height*0.0075),
-                    decoration: BoxDecoration(
-                        color: secondaryColor, // Customize the color as needed
-                        borderRadius: BorderRadius.only(topRight: Radius.circular(2),bottomRight: Radius.circular(2)),
-                        boxShadow: [
-                          BoxShadow(
-                              offset: Offset(1,2),
-                              spreadRadius: 1,
-                              blurRadius: 1.5,
-                              color: black.withOpacity(0.25)
-                          )
-                        ]
-                    ),
-                    child: Text(
-                      '-${product.discountAmount}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: MediaQuery.sizeOf(context).height*0.018, // Adjust the font size as needed
+                      child: Image.network(
+                        widget.product.image,
+                        width: double.infinity, // Makes the image take the full width of the container
+                        height: MediaQuery.of(context).size.height * 0.3, // Fixed height for the image
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                ),
-                product.newArrival? Positioned(
-                  top: 8.0,
-                  right: 8.0,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
-                    decoration: BoxDecoration(
-                      color: secondaryColor, // Customize the color as needed
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Text(
-                      'New Arrival',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12.0, // Adjust the font size as needed
+                  if(double.parse(widget.product.discountPrice) > 0)Positioned(
+                    bottom: MediaQuery.sizeOf(context).height*0.055,
+                    left: 0.0,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.0125, vertical: MediaQuery.sizeOf(context).height*0.0075),
+                      decoration: BoxDecoration(
+                          color: secondaryColor, // Customize the color as needed
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(2),bottomRight: Radius.circular(2)),
+                          boxShadow: [
+                            BoxShadow(
+                                offset: Offset(1,2),
+                                spreadRadius: 1,
+                                blurRadius: 1.5,
+                                color: black.withOpacity(0.25)
+                            )
+                          ]
                       ),
-                    ),
-                  ),
-                ) : SizedBox(),
-                Positioned(
-                  bottom: MediaQuery.of(context).size.height * 0.005,
-                  right: MediaQuery.of(context).size.height * 0.005,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          // Hide any currently showing SnackBar
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
-                          try {
-                            await WishlistManager.addProductToWishlist(product);
-                            CustomSnackBar.show(context, "${product.title} added to wishlist!",action: SnackBarAction(label: "Undo", onPressed: () => WishlistManager.removeProductFromWishlist(product)));
-                          } catch (error) {
-                            CustomSnackBar.show(context, 'Error adding ${product.title} to wishlist');
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.15),
-                                  offset: Offset(0,0),
-                                  blurRadius: 1.5,
-                                  spreadRadius: 1,
-                                )
-                              ]
-                          ),
-                          padding: EdgeInsets.all(5),
-                          child: Stack(
-                            children: [
-                              Icon(
-                                Icons.favorite_border_outlined,
-                                color: black, // Outline color (black)
-                                size: MediaQuery.of(context).size.height * 0.025,
-                              ),
-
-                            ],
-                          ),
+                      child: Text(
+                        '-${widget.product.discountAmount}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: MediaQuery.sizeOf(context).height*0.018, // Adjust the font size as needed
                         ),
                       ),
+                    ),
+                  ),
+                  widget.product.newArrival? Positioned(
+                    top: 8.0,
+                    right: 8.0,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+                      decoration: BoxDecoration(
+                        color: secondaryColor, // Customize the color as needed
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Text(
+                        'New Arrival',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.0, // Adjust the font size as needed
+                        ),
+                      ),
+                    ),
+                  ) : SizedBox(),
+                  Positioned(
+                    bottom: MediaQuery.of(context).size.height * 0.005,
+                    right: MediaQuery.of(context).size.height * 0.005,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            // Hide any currently showing SnackBar
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-                      SizedBox(height: MediaQuery.sizeOf(context).height*0.005,),
+                            try {
+                              await WishlistManager.addProductToWishlist(widget.product);
+                              CustomSnackBar.show(context, "${widget.product.title} added to wishlist!",action: SnackBarAction(label: "Undo", onPressed:  ()async{
+                              await WishlistManager.removeProductFromWishlist(widget.product);
+                              setState(() {
 
-                      InkWell(
-                        onTap: ()
-                        async{
+                              });
+                              }));
+                            } catch (error) {
+                              CustomSnackBar.show(context, 'Error adding ${widget.product.title} to wishlist');
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    offset: Offset(0,0),
+                                    blurRadius: 1.5,
+                                    spreadRadius: 1,
+                                  )
+                                ]
+                            ),
+                            padding: EdgeInsets.all(5),
+                            child: Stack(
+                              children: [
+                                Icon(
+                                  Icons.favorite_border_outlined,
+                                  color: black, // Outline color (black)
+                                  size: MediaQuery.of(context).size.height * 0.025,
+                                ),
 
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.15),
-                                  offset: Offset(0,0),
-                                  blurRadius: 1.5,
-                                  spreadRadius: 1,
-                                )
-                              ]
+                              ],
+                            ),
                           ),
-                          padding: EdgeInsets.all(5),
-                          child: Stack(
-                            children: [
-                              Icon(
-                                Icons.add,
-                                color: primaryColor, // Outline color (black)
-                                size: MediaQuery.of(context).size.height * 0.025,
-                              ),
+                        ),
 
-                            ],
+                        SizedBox(height: MediaQuery.sizeOf(context).height*0.005,),
+
+                        InkWell(
+                          onTap: ()
+                          async{
+
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    offset: Offset(0,0),
+                                    blurRadius: 1.5,
+                                    spreadRadius: 1,
+                                  )
+                                ]
+                            ),
+                            padding: EdgeInsets.all(5),
+                            child: Stack(
+                              children: [
+                                Icon(
+                                  Icons.add,
+                                  color: primaryColor, // Outline color (black)
+                                  size: MediaQuery.of(context).size.height * 0.025,
+                                ),
+
+                              ],
+                            ),
                           ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+
+                ],
+              ),
+            ),
+            Container(
+              width: MediaQuery.sizeOf(context).height*0.225,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 8),
+                  Text(
+                    widget.product.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: "OpenSans_SemiBold",
+                        fontSize: MediaQuery.sizeOf(context).height*0.018,
+                        color: black
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Text(widget.product.category,maxLines: 1,
+                    overflow: TextOverflow.ellipsis,style: TextStyle(
+                      fontFamily: "OpenSans_SemiBold",
+                      fontSize: MediaQuery.sizeOf(context).height*0.014,
+                      color: black.withOpacity(0.6)
+                  ),),
+                  SizedBox(height: 2),
+                  (double.parse(widget.product.discountPrice) > 0)? Row(
+                    children: [
+                      Text(
+                        '\$${widget.product.discountPrice}', // Display the discounted price with a '$' prefix
+                        style: TextStyle(
+                            fontFamily: "OpenSans_SemiBold",
+                            fontSize: MediaQuery.sizeOf(context).height*0.022,
+                            color: secondaryColor
+                        ),
+                      ),
+                      SizedBox(width: MediaQuery.sizeOf(context).height*0.005), // Add some spacing between the prices
+                      Text(
+                        '${widget.product.price}', // Display the original price with a '$' prefix
+                        style: TextStyle(
+                          color: black,
+                          fontSize: MediaQuery.sizeOf(context).height*0.016,
+                          decoration: TextDecoration.lineThrough, // Add a line-through decoration
                         ),
                       ),
                     ],
+                  )  : Text(
+                    widget.product.price,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                ),
-
-
-              ],
+                ],
+              ),
             ),
-          ),
-          Container(
-            width: MediaQuery.sizeOf(context).height*0.225,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 8),
-                Text(
-                  product.title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: "OpenSans_SemiBold",
-                      fontSize: MediaQuery.sizeOf(context).height*0.018,
-                      color: black
-                  ),
-                ),
-                SizedBox(height: 2),
-                Text(product.category,maxLines: 1,
-                  overflow: TextOverflow.ellipsis,style: TextStyle(
-                    fontFamily: "OpenSans_SemiBold",
-                    fontSize: MediaQuery.sizeOf(context).height*0.014,
-                    color: black.withOpacity(0.6)
-                ),),
-                SizedBox(height: 2),
-                (double.parse(product.discountPrice) > 0)? Row(
-                  children: [
-                    Text(
-                      '\$${product.discountPrice}', // Display the discounted price with a '$' prefix
-                      style: TextStyle(
-                          fontFamily: "OpenSans_SemiBold",
-                          fontSize: MediaQuery.sizeOf(context).height*0.022,
-                          color: secondaryColor
-                      ),
-                    ),
-                    SizedBox(width: MediaQuery.sizeOf(context).height*0.005), // Add some spacing between the prices
-                    Text(
-                      '${product.price}', // Display the original price with a '$' prefix
-                      style: TextStyle(
-                        color: black,
-                        fontSize: MediaQuery.sizeOf(context).height*0.016,
-                        decoration: TextDecoration.lineThrough, // Add a line-through decoration
-                      ),
-                    ),
-                  ],
-                )  : Text(
-                  product.price,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
 
-        ],
+          ],
+        ),
       ),
     );
   }
