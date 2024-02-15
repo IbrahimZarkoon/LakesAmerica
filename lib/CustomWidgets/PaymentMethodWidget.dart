@@ -19,7 +19,7 @@ class PaymentMethodWidget extends StatelessWidget {
 
         optionCon(context,"https://lh3.googleusercontent.com/lfSN8-0uxLdHSqBD9ULaZUiBRJ_9lCKK8JqHGWhdgy4WjGJNYQtQ5hPbw2RBCBfEABPTqljEVA4J2J3Pr-emxqnIZu16WIt41CE7Mg"),
 
-        optionCon(context,"https://services.youngicee.com/wp-content/uploads/2022/11/Skrill-Payments-in-Nigeria.jpg"),
+        optionCon(context,"https://ewallet-comparison.com/wp-content/uploads/2020/08/skrill-e1597175954433-700x350.png"),
 
         optionCon(context,"https://i.pcmag.com/imagery/reviews/068BjcjwBw0snwHIq0KNo5m-15.fit_lim.size_1050x591.v1602794215.png"),
 

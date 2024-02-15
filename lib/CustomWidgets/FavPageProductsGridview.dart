@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Routes/PageRoutes.dart';
+import 'package:provider/provider.dart';
 
 import '../Constants/colors.dart';
 import '../Models/Product.dart';
+import '../Providers/CartProvider.dart';
 import '../SharedPreferences/WishlistManager.dart';
 import 'CustomSnackBar.dart';
 import 'ShopPageProductsGridview.dart';
@@ -23,6 +25,8 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
 
   @override
   Widget build(BuildContext context) {
+    var CartProv = Provider.of<CartProvider>(context,listen: false);
+
     return InkWell(
       onTap: ()
       {
@@ -84,7 +88,7 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
 
 
                           WishlistManager.removeProductFromWishlist(widget.product).then((_) {
-                            CustomSnackBar.show(context, "${widget.product.title} removed from wishlist!",action: SnackBarAction(label: "Undo", onPressed: () => WishlistManager.addProductToWishlist(widget.product)));
+                            CustomSnackBar.show(context, "${widget.product.title} removed from wishlist!",action: SnackBarAction(label: "Undo",textColor: white, onPressed: () => WishlistManager.addProductToWishlist(widget.product)));
 
                             widget.onRemove(); // Call the callback function
                           }).catchError((error) {
@@ -117,9 +121,20 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
                       SizedBox(height: MediaQuery.sizeOf(context).height*0.01,),
 
                       InkWell(
-                        onTap: ()
-                        async{
+                        onTap: () async {
+                          // Hide any currently showing SnackBar
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
+                          try {
+                            CartProv.addToCart(widget.product,1);
+                            CustomSnackBar.show(context, "${widget.product.title} added to cart!",action: SnackBarAction(label: "Undo",textColor: white, onPressed: () => CartProv.removeFromCart(widget.product)));
+                            setState(() {
+
+                            });
+
+                          } catch (error) {
+                            CustomSnackBar.show(context, 'Error adding ${widget.product.title} to cart');
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -135,15 +150,10 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
                               ]
                           ),
                           padding: EdgeInsets.all(5),
-                          child: Stack(
-                            children: [
-                              Icon(
-                                Icons.add,
-                                color: primaryColor, // Outline color (black)
-                                size: MediaQuery.of(context).size.height * 0.03,
-                              ),
-
-                            ],
+                          child: Icon(
+                            Icons.add,
+                            color: primaryColor, // Outline color (black)
+                            size: MediaQuery.of(context).size.height * 0.03,
                           ),
                         ),
                       ),
@@ -189,7 +199,7 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
                           ),
                           SizedBox(width: MediaQuery.sizeOf(context).height*0.005), // Add some spacing between the prices
                           Text(
-                            '${widget.product.price}', // Display the original price with a '$' prefix
+                            '\$${widget.product.price}', // Display the original price with a '$' prefix
                             style: TextStyle(
                               color: black,
                               fontSize: MediaQuery.sizeOf(context).height*0.014,
@@ -199,7 +209,7 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
                           ),
                         ],
                       )  : Text(
-                        widget.product.price,
+                        "\$${widget.product.price}",
                         style: TextStyle(
                           color: secondaryColor,
                           fontSize: MediaQuery.sizeOf(context).height*0.018,

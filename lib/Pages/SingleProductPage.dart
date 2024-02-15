@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lakesamerica/CustomWidgets/ProductDescriptionAcc.dart';
 import 'package:lakesamerica/CustomWidgets/ShopPageProductsGridview.dart';
 import 'package:lakesamerica/Models/Product.dart';
+import 'package:lakesamerica/Providers/CartProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 import '../Constants/colors.dart';
@@ -67,7 +69,8 @@ class _SingleProductPageState extends State<SingleProductPage> {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F60%2F62%2F60629c6b2c3c690c247a6b1bff2d4541f4155d0c.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Loose Fit Hoodie',
       'category': 'Men Jackets',
-      'price': '\$99',
+      'price': '99',
+      'quantity' : 85,
       'discountAmount' : '60%',
       'discountPrice' : '39',
       'newArrival' : true,
@@ -76,7 +79,8 @@ class _SingleProductPageState extends State<SingleProductPage> {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2Fb4%2F26%2Fb4261cae5350fe9209375bf73cf0014104d6e61f.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Cargo joggers',
       'category': 'Men Pants',
-      'price': '\$199','discountAmount' : '20%',
+      'price': '199','discountAmount' : '20%',
+      'quantity' : 85,
       'discountPrice' : '169',
       'newArrival' : false,
     },
@@ -84,33 +88,37 @@ class _SingleProductPageState extends State<SingleProductPage> {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F70%2F90%2F7090859755dd5b6c809c17cee153b092459be037.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Relaxed Fit Sweatpants',
       'category': 'Men Pants',
-      'price': '\$199','discountAmount' : '55%',
+      'price': '199','discountAmount' : '55%',
       'newArrival' : true,
+      'quantity' : 85,
       'discountPrice' : '89',
     },
     {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F3b%2F02%2F3b02e03e308786099f336ad9df8f27aa34681d1b.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Oversized turtleneck jumper',
       'category': 'Women Jumpers',
-      'price': '\$99',
+      'price': '99',
       'discountAmount' : '30%',
       'newArrival' : false,
+      'quantity' : 85,
       'discountPrice' : '69',
     },
     {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2Ff4%2F00%2Ff4004cd89e5d30466aa9a8f473caa29f32d84d0c.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bladies_cardigansjumpers_cardigans%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Rib-knit cardigan',
       'category': 'Women Knitwear',
-      'price': '\$199','discountAmount' : '30%',
+      'price': '199','discountAmount' : '30%',
       'newArrival' : true,
+      'quantity' : 85,
       'discountPrice' : '69',
     },
     {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2Fa1%2F70%2Fa170f68ba3610172a5d8ecf6ff9fbabd915e3a6c.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Tapered Regular Jeans',
       'category': 'Women Jeans',
-      'price': '\$99','discountAmount' : '20%',
+      'price': '99','discountAmount' : '20%',
       'newArrival' : false,
+      'quantity' : 85,
       'discountPrice' : '79',
     },
 
@@ -121,11 +129,12 @@ class _SingleProductPageState extends State<SingleProductPage> {
     category: "${productMap['category']!}",
     price: "${productMap['price']!}",
     discountAmount: "${productMap['discountAmount'] ?? "0.0"}",
-    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool,
+    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool, quantity: int.parse("${productMap['quantity'] ?? 0}"),
   )).toList();
 
   @override
   Widget build(BuildContext context) {
+    var CartProv = Provider.of<CartProvider>(context,listen: false);
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -149,7 +158,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
           "Member perk: 10% off \$50, 15\$ off \$80 or 20% off \$100 + free shipping",
           style: TextStyle(
             color: secondaryColor,
-            fontSize: MediaQuery.sizeOf(context).height*0.014,
+            fontSize: MediaQuery.sizeOf(context).height*0.016,
             fontFamily: "OpenSans_Bold"
           ),
           textAlign: TextAlign.center,
@@ -160,14 +169,42 @@ class _SingleProductPageState extends State<SingleProductPage> {
         ),
         actions: [
           InkWell(
-              onTap: () {
-                navigateToCartPage(context);
-              },
-              child: Icon(
-                Icons.shopping_bag_outlined,
-                size: MediaQuery.sizeOf(context).height * 0.03,
-                color: black,
-              )),
+            onTap: () {
+              navigateToCartPage(context);
+            },
+            child: Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.0125,horizontal: MediaQuery.of(context).size.height * 0.008),
+                  child: Icon(
+                    Icons.shopping_bag_outlined,
+                    size: MediaQuery.of(context).size.height * 0.03,
+                    color: CartProv.cartItems.length > 0 ? secondaryColor : Colors.black.withOpacity(0.5),
+                  ),
+                ),
+                if (CartProv.cartItems.length > 0) // Show count only if cart is not empty
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Container(
+                      padding: EdgeInsets.all(MediaQuery.sizeOf(context).height*0.005),
+                      decoration: BoxDecoration(
+                        color: Colors.red, // You can change the color as needed
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        CartProv.cartItems.length.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: MediaQuery.sizeOf(context).height*0.015,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
           SizedBox(
             width: MediaQuery.sizeOf(context).width * 0.035,
           ),
@@ -184,7 +221,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
 
             //Title, Price & share
             Container(
-              padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.015,vertical: MediaQuery.sizeOf(context).height*0.02),
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.015,vertical: MediaQuery.sizeOf(context).height*0.0175),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -203,6 +240,19 @@ class _SingleProductPageState extends State<SingleProductPage> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: "OpenSans_Bold",
+                              fontSize: MediaQuery.sizeOf(context).height*0.022,
+                              color: black
+                          ),
+                        ),
+
+                        SizedBox(height: MediaQuery.sizeOf(context).height*0.0015,),
+
+                        Text(
+                          "${widget.product.category}",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontFamily: "OpenSans_SemiBold",
                               fontSize: MediaQuery.sizeOf(context).height*0.022,
                               color: black
                           ),
@@ -310,44 +360,59 @@ class _SingleProductPageState extends State<SingleProductPage> {
         ),
       ),
 
-      bottomNavigationBar: InkWell(
-        onTap: ()
-        {
-          //Navigator.push(context, MaterialPageRoute(builder: (_) => DashboardPage(tabindex: 4)));
-        },
-        child: Container(
-          height: kToolbarHeight,
-          margin: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height * 0.02,vertical: MediaQuery.sizeOf(context).height * 0.02),
-          padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.sizeOf(context).height * 0.02,
-              vertical: MediaQuery.sizeOf(context).height * 0.0125),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              border: Border.all(color: black,width: 1),
-              color: black, borderRadius: BorderRadius.circular(10),boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.15),
-              offset: Offset(0,0),
-              blurRadius: 1.5,
-            )
-          ]),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
+      bottomNavigationBar: Container(
+        height: MediaQuery.sizeOf(context).height*0.1,
+        padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height * 0.02,vertical: MediaQuery.sizeOf(context).height * 0.02),
+        decoration: BoxDecoration(
+          border: Border(top: BorderSide(color: black.withOpacity(0.15),width: 1))
+        ),
+        child: InkWell(
+          onTap: () async {
+            // Hide any currently showing SnackBar
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-              Icon(Icons.shopping_bag_outlined,size: MediaQuery.sizeOf(context).height*0.03,color: white.withOpacity(0.95),),
+            try {
+              CartProv.addToCart(widget.product,1);
+              CustomSnackBar.show(context, "${widget.product.title} added to cart!",action: SnackBarAction(label: "Undo",textColor: white, onPressed: () => WishlistManager.removeProductFromWishlist(widget.product)));
+              setState(() {
 
-              SizedBox(width: MediaQuery.sizeOf(context).height*0.005,),
+              });
+            } catch (error) {
+              CustomSnackBar.show(context, 'Error adding ${widget.product.title} to cart');
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.sizeOf(context).height * 0.02,
+                vertical: MediaQuery.sizeOf(context).height * 0.01),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                border: Border.all(color: black,width: 1),
+                color: black, borderRadius: BorderRadius.circular(10),boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                offset: Offset(0,0),
+                blurRadius: 1.5,
+              )
+            ]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
 
-              Text(
-                "Add to bag",
-                style: TextStyle(
-                    fontSize: MediaQuery.sizeOf(context).height * 0.02,
-                    fontFamily: "OpenSans",
-                    color: Colors.white),
-              ),
-            ],
+                Icon(Icons.shopping_bag_outlined,size: MediaQuery.sizeOf(context).height*0.03,color: white.withOpacity(0.95),),
+
+                SizedBox(width: MediaQuery.sizeOf(context).height*0.005,),
+
+                Text(
+                  "Add to bag",
+                  style: TextStyle(
+                      fontSize: MediaQuery.sizeOf(context).height * 0.02,
+                      fontFamily: "OpenSans",
+                      color: Colors.white),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -452,7 +517,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
           children:[
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.75,
+              height: MediaQuery.of(context).size.height * 0.65,
               decoration: BoxDecoration(
                 color: white,
               ),
@@ -479,7 +544,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
 
                   try {
                     await WishlistManager.addProductToWishlist(widget.product);
-                    CustomSnackBar.show(context, "${widget.product.title} added to wishlist!",action: SnackBarAction(label: "Undo", onPressed:  ()async{
+                    CustomSnackBar.show(context, "${widget.product.title} added to wishlist!",action: SnackBarAction(label: "Undo",textColor: white, onPressed:  ()async{
                       await WishlistManager.removeProductFromWishlist(widget.product);
                       setState(() {
 

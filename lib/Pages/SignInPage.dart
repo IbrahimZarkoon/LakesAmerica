@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Pages/ForgotPasswordPage.dart';
+import 'package:lakesamerica/Routes/PageRoutes.dart';
 
 import '../Constants/colors.dart';
 
@@ -105,9 +106,9 @@ class _SignInPageState extends State<SignInPage> {
                 ),
               ),
 
-              SizedBox(height: MediaQuery.sizeOf(context).height*0.03),
 
               Container(
+                margin: EdgeInsets.symmetric(vertical: MediaQuery.sizeOf(context).height*0.03),
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.sizeOf(context).height * 0.02,
                     vertical: MediaQuery.sizeOf(context).height * 0.0125),
@@ -130,31 +131,36 @@ class _SignInPageState extends State<SignInPage> {
                       color: Colors.white),
                 ),
               ),
-              SizedBox(height: MediaQuery.sizeOf(context).height*0.03),
 
-              Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.sizeOf(context).height * 0.02,
-                    vertical: MediaQuery.sizeOf(context).height * 0.0125),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(color: black,width: 1),
-                    color: white, borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        offset: Offset(0,0),
-                        blurRadius: 1.5,
+              InkWell(
+                onTap: ()
+                {
+                  navigateToSignUpPage(context);
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.sizeOf(context).height * 0.02,
+                      vertical: MediaQuery.sizeOf(context).height * 0.0125),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: black,width: 1),
+                      color: white, borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          offset: Offset(0,0),
+                          blurRadius: 1.5,
 
-                      )
-                    ]
-                ),
-                child: Text(
-                  "Become a member",
-                  style: TextStyle(
-                      fontSize: MediaQuery.sizeOf(context).height * 0.018,
-                      fontFamily: "OpenSans_SemiBold",
-                      color: black),
+                        )
+                      ]
+                  ),
+                  child: Text(
+                    "Become a member",
+                    style: TextStyle(
+                        fontSize: MediaQuery.sizeOf(context).height * 0.018,
+                        fontFamily: "OpenSans_SemiBold",
+                        color: black),
+                  ),
                 ),
               ),
             ],

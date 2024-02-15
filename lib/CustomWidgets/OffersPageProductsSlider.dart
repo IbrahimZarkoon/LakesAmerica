@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Constants/colors.dart';
 import '../Models/Product.dart';
+import '../Providers/CartProvider.dart';
 import '../Routes/PageRoutes.dart';
 import '../SharedPreferences/WishlistManager.dart';
 import 'CustomSnackBar.dart';
@@ -23,51 +25,52 @@ class OffersPageProductSlider extends StatelessWidget {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F78%2F7e%2F787e1829d6187109fc0e4a86060a69524627d798.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Relaxed Fit Zip-Top Jacket',
       'category': 'Men Jackets',
-      'price': '\$99',
+      'price': '99',
       'discountAmount' : '60%',
       'discountPrice' : '39',
-      'newArrival' : false,
+      'newArrival' : false,'quantity' : 25,
     },
     {
       'image': 'https://lp.arket.com/app006prod?set=quality%5B79%5D%2Csource%5B%2Fa1%2Ff9%2Fa1f9fe34758854edc6c1fb4f22fd95a1fe7be7b0.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D%2Ctarget%5Bhm.com%5D&call=url[file:/product/main]',
       'title': 'Men Sweatshirts',
       'category': 'Category 2',
-      'price': '\$199','discountAmount' : '30%',
+      'price': '199','discountAmount' : '30%',
       'discountPrice' : '139',
-      'newArrival' : true,
+      'newArrival' : true,'quantity' : 55,
     },
     {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F5a%2Fc2%2F5ac237b7320e3fde2b7dd25abe30c2ec3e75bedf.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Regular Fit Twill top',
       'category': 'Men Tops',
-      'price': '\$199','discountAmount' : '55%',
+      'price': '199','discountAmount' : '55%',
       'newArrival' : true,
-      'discountPrice' : '89',
+      'discountPrice' : '89','quantity' : 20,
     },
     {
       'image': 'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F9a%2F32%2F9a326a674d8098187b56c96e3355a1ab15b84d6e.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
       'title': 'Regular Fit Twill Jacket',
       'category': 'Men Jacket',
-      'price': '\$99','discountAmount' : '20%',
+      'price': '99','discountAmount' : '20%',
       'newArrival' : false,
-      'discountPrice' : '79',
+      'discountPrice' : '79','quantity' : 10,
     },
     {
       'image': 'https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F2e%2Fdd%2F2edd3ef227c08e59274ab4818934c8174aef2f45.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]',
       'title': 'Straight Regular Jeans',
       'category': 'Men Pants',
-      'price': '\$199','discountAmount' : '30%',
+      'price': '199','discountAmount' : '30%',
       'newArrival' : true,
-      'discountPrice' : '69',
+      'discountPrice' : '69','quantity' : 5,
     },
     {
       'image': 'https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F79%2F44%2F7944a885374245793a75d963b0d2d8c5121eb7f1.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]',
       'title': 'Relaxed Fit Zip-top sweatshirt',
       'category': 'Men Sweatshirt',
-      'price': '\$99',
+      'price': '99',
       'discountAmount' : '30%',
       'newArrival' : false,
       'discountPrice' : '69',
+      'quantity' : 8,
     },
 
     // Add more products as needed
@@ -77,7 +80,7 @@ class OffersPageProductSlider extends StatelessWidget {
     category: "${productMap['category']!}",
     price: "${productMap['price']!}",
     discountAmount: "${productMap['discountAmount'] ?? "0.0"}",
-    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool,
+    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool,quantity: int.parse("${productMap['quantity'] ?? 0}"),
   )).toList();
 
   @override
@@ -110,6 +113,8 @@ class OffersPageProductContainer extends StatefulWidget {
 class _OffersPageProductContainerState extends State<OffersPageProductContainer> {
   @override
   Widget build(BuildContext context) {
+    var CartProv = Provider.of<CartProvider>(context,listen: false);
+    
     return InkWell(
       onTap: ()
       {
@@ -207,7 +212,7 @@ class _OffersPageProductContainerState extends State<OffersPageProductContainer>
 
                             try {
                               await WishlistManager.addProductToWishlist(widget.product);
-                              CustomSnackBar.show(context, "${widget.product.title} added to wishlist!",action: SnackBarAction(label: "Undo", onPressed:  ()async{
+                              CustomSnackBar.show(context, "${widget.product.title} added to wishlist!",action: SnackBarAction(label: "Undo",textColor: white, onPressed:  ()async{
                               await WishlistManager.removeProductFromWishlist(widget.product);
                               setState(() {
 
@@ -247,9 +252,19 @@ class _OffersPageProductContainerState extends State<OffersPageProductContainer>
                         SizedBox(height: MediaQuery.sizeOf(context).height*0.005,),
 
                         InkWell(
-                          onTap: ()
-                          async{
+                          onTap: () async {
+                            // Hide any currently showing SnackBar
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
+                            try {
+                              CartProv.addToCart(widget.product,1);
+                              CustomSnackBar.show(context, "${widget.product.title} added to cart!",action: SnackBarAction(label: "Undo",textColor: white, onPressed: () => CartProv.removeFromCart(widget.product)));
+                              setState(() {
+
+                              });
+                            } catch (error) {
+                              CustomSnackBar.show(context, 'Error adding ${widget.product.title} to cart');
+                            }
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -265,15 +280,10 @@ class _OffersPageProductContainerState extends State<OffersPageProductContainer>
                                 ]
                             ),
                             padding: EdgeInsets.all(5),
-                            child: Stack(
-                              children: [
-                                Icon(
-                                  Icons.add,
-                                  color: primaryColor, // Outline color (black)
-                                  size: MediaQuery.of(context).size.height * 0.025,
-                                ),
-
-                              ],
+                            child: Icon(
+                              Icons.add,
+                              color: primaryColor, // Outline color (black)
+                              size: MediaQuery.of(context).size.height * 0.025,
                             ),
                           ),
                         ),
@@ -322,7 +332,7 @@ class _OffersPageProductContainerState extends State<OffersPageProductContainer>
                       ),
                       SizedBox(width: MediaQuery.sizeOf(context).height*0.005), // Add some spacing between the prices
                       Text(
-                        '${widget.product.price}', // Display the original price with a '$' prefix
+                        '\$${widget.product.price}', // Display the original price with a '$' prefix
                         style: TextStyle(
                           color: black,
                           fontSize: MediaQuery.sizeOf(context).height*0.016,

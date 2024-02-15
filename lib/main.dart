@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Constants/colors.dart';
+import 'package:provider/provider.dart';
 
 import 'Pages/SplashScreen.dart';
+import 'Providers/CartProvider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CartProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

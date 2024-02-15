@@ -41,7 +41,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             )),
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())  : SingleChildScrollView(
+          ? Center(child: CircularProgressIndicator(color: primaryColor,))  : SingleChildScrollView(
         padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.025),
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
