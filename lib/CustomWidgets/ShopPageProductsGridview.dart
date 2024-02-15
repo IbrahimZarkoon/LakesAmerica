@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Constants/colors.dart';
 import 'package:lakesamerica/CustomWidgets/CustomSnackBar.dart';
+import 'package:lakesamerica/Providers/CartProvider.dart';
+import 'package:provider/provider.dart';
 
 import '../Models/Product.dart';
 import '../Routes/PageRoutes.dart';
@@ -28,6 +30,7 @@ class ShopPageProductsGridView extends StatelessWidget {
       'price': '\$99',
       'discountAmount' : '30%',
       'discountPrice' : '69',
+      'quantity' : 81,
       'newArrival' : false,
     },
     {
@@ -36,6 +39,7 @@ class ShopPageProductsGridView extends StatelessWidget {
       'category': 'Category 2',
       'price': '\$199','discountAmount' : '30%',
       'discountPrice' : '69',
+      'quantity' : 18,
       'newArrival' : true,
     },
     {
@@ -44,6 +48,7 @@ class ShopPageProductsGridView extends StatelessWidget {
       'category': 'Men Tops',
       'price': '\$199','discountAmount' : '',
       'newArrival' : true,
+      'quantity' : 28,
       'discountPrice' : '0',
     },
     {
@@ -52,6 +57,7 @@ class ShopPageProductsGridView extends StatelessWidget {
       'category': 'Men Jacket',
       'price': '\$99','discountAmount' : '',
       'newArrival' : false,
+      'quantity' : 38,
       'discountPrice' : '0',
     },
     {
@@ -60,6 +66,7 @@ class ShopPageProductsGridView extends StatelessWidget {
       'category': 'Men Pants',
       'price': '\$199','discountAmount' : '30%',
       'newArrival' : true,
+      'quantity' : 48,
       'discountPrice' : '69',
     },
     {
@@ -70,6 +77,8 @@ class ShopPageProductsGridView extends StatelessWidget {
       'discountAmount' : '30%',
       'newArrival' : false,
       'discountPrice' : '69',
+      'quantity' : 85,
+
     },
 
     // Add more products as needed
@@ -79,7 +88,7 @@ class ShopPageProductsGridView extends StatelessWidget {
     category: "${productMap['category']!}",
     price: "${productMap['price']!}",
     discountAmount: "${productMap['discountAmount'] ?? "0.0"}",
-    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool,
+    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool, quantity: int.parse("${productMap['quantity'] ?? 0}"),
   )).toList();
 
   @override
@@ -110,6 +119,7 @@ class ShopPageProdContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var CartProv = Provider.of<CartProvider>(context,listen: false);
     return InkWell(
       onTap: ()
       {
@@ -193,7 +203,7 @@ class ShopPageProdContainer extends StatelessWidget {
 
                           try {
                             await WishlistManager.addProductToWishlist(product);
-                            CustomSnackBar.show(context, "${product.title} added to wishlist!",action: SnackBarAction(label: "Undo", onPressed: () => WishlistManager.removeProductFromWishlist(product)));
+                            CustomSnackBar.show(context, "${product.title} added to wishlist!",action: SnackBarAction(label: "Undo",textColor: white, onPressed: () => WishlistManager.removeProductFromWishlist(product)));
                           } catch (error) {
                             CustomSnackBar.show(context, 'Error adding ${product.title} to wishlist');
                           }
@@ -228,9 +238,16 @@ class ShopPageProdContainer extends StatelessWidget {
                       SizedBox(height: MediaQuery.sizeOf(context).height*0.005,),
 
                       InkWell(
-                        onTap: ()
-                        async{
+                        onTap: () async {
+                          // Hide any currently showing SnackBar
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
+                          try {
+                            CartProv.addToCart(product);
+                            CustomSnackBar.show(context, "${product.title} added to cart!",action: SnackBarAction(label: "Undo",textColor: white, onPressed: () => WishlistManager.removeProductFromWishlist(product)));
+                          } catch (error) {
+                            CustomSnackBar.show(context, 'Error adding ${product.title} to cart');
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -246,15 +263,10 @@ class ShopPageProdContainer extends StatelessWidget {
                               ]
                           ),
                           padding: EdgeInsets.all(5),
-                          child: Stack(
-                            children: [
-                              Icon(
-                                Icons.add,
-                                color: primaryColor, // Outline color (black)
-                                size: MediaQuery.of(context).size.height * 0.025,
-                              ),
-
-                            ],
+                          child: Icon(
+                            Icons.add,
+                            color: primaryColor, // Outline color (black)
+                            size: MediaQuery.of(context).size.height * 0.025,
                           ),
                         ),
                       ),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lakesamerica/CustomWidgets/ProductDescriptionAcc.dart';
 import 'package:lakesamerica/CustomWidgets/ShopPageProductsGridview.dart';
 import 'package:lakesamerica/Models/Product.dart';
+import 'package:lakesamerica/Providers/CartProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 import '../Constants/colors.dart';
@@ -68,6 +70,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
       'title': 'Loose Fit Hoodie',
       'category': 'Men Jackets',
       'price': '\$99',
+      'quantity' : 85,
       'discountAmount' : '60%',
       'discountPrice' : '39',
       'newArrival' : true,
@@ -77,6 +80,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
       'title': 'Cargo joggers',
       'category': 'Men Pants',
       'price': '\$199','discountAmount' : '20%',
+      'quantity' : 85,
       'discountPrice' : '169',
       'newArrival' : false,
     },
@@ -86,6 +90,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
       'category': 'Men Pants',
       'price': '\$199','discountAmount' : '55%',
       'newArrival' : true,
+      'quantity' : 85,
       'discountPrice' : '89',
     },
     {
@@ -95,6 +100,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
       'price': '\$99',
       'discountAmount' : '30%',
       'newArrival' : false,
+      'quantity' : 85,
       'discountPrice' : '69',
     },
     {
@@ -103,6 +109,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
       'category': 'Women Knitwear',
       'price': '\$199','discountAmount' : '30%',
       'newArrival' : true,
+      'quantity' : 85,
       'discountPrice' : '69',
     },
     {
@@ -111,6 +118,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
       'category': 'Women Jeans',
       'price': '\$99','discountAmount' : '20%',
       'newArrival' : false,
+      'quantity' : 85,
       'discountPrice' : '79',
     },
 
@@ -121,11 +129,12 @@ class _SingleProductPageState extends State<SingleProductPage> {
     category: "${productMap['category']!}",
     price: "${productMap['price']!}",
     discountAmount: "${productMap['discountAmount'] ?? "0.0"}",
-    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool,
+    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool, quantity: int.parse("${productMap['quantity'] ?? 0}"),
   )).toList();
 
   @override
   Widget build(BuildContext context) {
+    var CartProv = Provider.of<CartProvider>(context,listen: false);
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -311,9 +320,16 @@ class _SingleProductPageState extends State<SingleProductPage> {
       ),
 
       bottomNavigationBar: InkWell(
-        onTap: ()
-        {
-          //Navigator.push(context, MaterialPageRoute(builder: (_) => DashboardPage(tabindex: 4)));
+        onTap: () async {
+          // Hide any currently showing SnackBar
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+          try {
+            CartProv.addToCart(widget.product);
+            CustomSnackBar.show(context, "${widget.product.title} added to cart!",action: SnackBarAction(label: "Undo",textColor: white, onPressed: () => WishlistManager.removeProductFromWishlist(widget.product)));
+          } catch (error) {
+            CustomSnackBar.show(context, 'Error adding ${widget.product.title} to cart');
+          }
         },
         child: Container(
           height: kToolbarHeight,
@@ -479,7 +495,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
 
                   try {
                     await WishlistManager.addProductToWishlist(widget.product);
-                    CustomSnackBar.show(context, "${widget.product.title} added to wishlist!",action: SnackBarAction(label: "Undo", onPressed:  ()async{
+                    CustomSnackBar.show(context, "${widget.product.title} added to wishlist!",action: SnackBarAction(label: "Undo",textColor: white, onPressed:  ()async{
                       await WishlistManager.removeProductFromWishlist(widget.product);
                       setState(() {
 

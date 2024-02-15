@@ -87,7 +87,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(child: Text("Error loading wishlist"));
+                    return Center(child: Text("Error loading wishlist\nError code: ${snapshot.error}"));
                   } else if (snapshot.hasData) {
                     if (snapshot.data!.length > 0) {
                       // return ShopPageProductsGridView.custom(0.25, 0.475,snapshot: snapshot.data!,);

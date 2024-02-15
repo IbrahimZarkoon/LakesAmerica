@@ -1,28 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lakesamerica/Routes/PageRoutes.dart';
 import 'package:provider/provider.dart';
 
 import '../Constants/colors.dart';
 import '../Models/Product.dart';
 import '../Providers/CartProvider.dart';
+import '../Routes/PageRoutes.dart';
 import '../SharedPreferences/WishlistManager.dart';
 import 'CustomSnackBar.dart';
 import 'ShopPageProductsGridview.dart';
 
-class FavPageProdContainer extends StatefulWidget {
-  final Product product;
-  final Function onRemove;
+class CartPageProdContainer extends StatefulWidget {
+  const CartPageProdContainer({super.key, required this.product, required this.onRemove});
 
-  const FavPageProdContainer({Key? key, required this.product, required this.onRemove}) : super(key: key); // Modify this line
+  final Function onRemove;
+  final Product product;
 
   @override
-  State<FavPageProdContainer> createState() => _FavPageProdContainerState();
+  State<CartPageProdContainer> createState() => _CartPageProdContainerState();
 }
 
-class _FavPageProdContainerState extends State<FavPageProdContainer> {
-  String selectedSize = 'SELECT SIZE';
-
+class _CartPageProdContainerState extends State<CartPageProdContainer> {
   @override
   Widget build(BuildContext context) {
     var CartProv = Provider.of<CartProvider>(context,listen: false);
@@ -86,69 +84,67 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
                         onTap: () async {
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-
-                          WishlistManager.removeProductFromWishlist(widget.product).then((_) {
-                            CustomSnackBar.show(context, "${widget.product.title} removed from wishlist!",action: SnackBarAction(label: "Undo",textColor: white, onPressed: () => WishlistManager.addProductToWishlist(widget.product)));
-
+                          try {
+                            CartProv.removeFromCart(widget.product);
+                            CustomSnackBar.show(context, "${widget.product.title} removed from cart!", action: SnackBarAction(label: "Undo", textColor: Colors.white, onPressed: () => CartProv.addToCart(widget.product)));
                             widget.onRemove(); // Call the callback function
-                          }).catchError((error) {
-                            CustomSnackBar.show(context, 'Error removing ${widget.product.title} from wishlist');
 
-                          });
+                          } catch (error) {
+                            CustomSnackBar.show(context, 'Error removing ${widget.product.title} from cart');
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.15),
-                                  offset: Offset(0,0),
-                                  blurRadius: 1.5,
-                                  spreadRadius: 1,
-                                )
-                              ]
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                offset: Offset(0, 0),
+                                blurRadius: 1.5,
+                                spreadRadius: 1,
+                              )
+                            ],
                           ),
                           padding: EdgeInsets.all(5),
                           child: Icon(
                             CupertinoIcons.delete,
-                            color: black,
+                            color: Colors.black,
                             size: MediaQuery.of(context).size.height * 0.03,
                           ),
                         ),
                       ),
 
-                      SizedBox(height: MediaQuery.sizeOf(context).height*0.01,),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
 
                       InkWell(
                         onTap: () async {
-                          // Hide any currently showing SnackBar
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
                           try {
                             CartProv.addToCart(widget.product);
-                            CustomSnackBar.show(context, "${widget.product.title} added to cart!",action: SnackBarAction(label: "Undo",textColor: white, onPressed: () => CartProv.removeFromCart(widget.product)));
+                            CustomSnackBar.show(context, "${widget.product.title} added to cart!", action: SnackBarAction(label: "Undo", textColor: Colors.white, onPressed: () => CartProv.removeFromCart(widget.product)));
                           } catch (error) {
                             CustomSnackBar.show(context, 'Error adding ${widget.product.title} to cart');
                           }
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.15),
-                                  offset: Offset(0,0),
-                                  blurRadius: 1.5,
-                                  spreadRadius: 1,
-                                )
-                              ]
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                offset: Offset(0, 0),
+                                blurRadius: 1.5,
+                                spreadRadius: 1,
+                              )
+                            ],
                           ),
                           padding: EdgeInsets.all(5),
                           child: Icon(
                             Icons.add,
-                            color: primaryColor, // Outline color (black)
+                            color: primaryColor,
                             size: MediaQuery.of(context).size.height * 0.03,
                           ),
                         ),
@@ -222,8 +218,8 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
                         children: [
 
                           Text("Color:",style: TextStyle(
-                            color: black,fontSize: MediaQuery.sizeOf(context).height*0.014,
-                            fontFamily: "OpenSans_SemiBold"
+                              color: black,fontSize: MediaQuery.sizeOf(context).height*0.014,
+                              fontFamily: "OpenSans_SemiBold"
                           ),),
 
                           SizedBox(width: MediaQuery.sizeOf(context).height*0.01,),
@@ -271,11 +267,9 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
                           dropdownColor: white,
                           borderRadius: BorderRadius.circular(5),
                           underline: SizedBox(),
-                          value: selectedSize, // Set the selected value
+                          value: "SELECT SIZE", // Set the selected value
                           onChanged: (String? newValue) {
-                            setState(() {
-                              selectedSize = newValue!;
-                            });
+
                           },
                           isExpanded: true,
                           items: <String>[
@@ -310,8 +304,7 @@ class _FavPageProdContainerState extends State<FavPageProdContainer> {
   }
 }
 
-
-Widget FavProductsGrid(BuildContext context,List<Product> snapshot,Function removeProductAndUpdate)
+Widget CartProductsGrid(BuildContext context,List<Product> snapshot,Function removeProductAndUpdate)
 {
   return Container(
     margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.015),
@@ -321,18 +314,18 @@ Widget FavProductsGrid(BuildContext context,List<Product> snapshot,Function remo
       scrollDirection: Axis.vertical,
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: MediaQuery.of(context).size.height * 0.5, // Maximum extent for items
-        childAspectRatio: 0.95,
-        crossAxisSpacing: MediaQuery.of(context).size.height * 0.015, // Spacing between columns
+        maxCrossAxisExtent: MediaQuery.of(context).size.height * 0.55, // Maximum extent for items
+        childAspectRatio: 1.05,
+        crossAxisSpacing: MediaQuery.of(context).size.height * 0.0, // Spacing between columns
         mainAxisSpacing: MediaQuery.of(context).size.height * 0.0, // Spacing between rows
       ),
       itemCount: snapshot.length,
       itemBuilder: (context, index) {
         final product = snapshot[index];
-        return FavPageProdContainer(
+        return CartPageProdContainer(
           product: product,
           onRemove: removeProductAndUpdate,
-        ); // Use your existing ProductContainer widget
+        );
       },
     ),
   );

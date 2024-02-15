@@ -51,6 +51,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'price': '\$99',
       'discountAmount' : '30%',
       'discountPrice' : '69',
+      'quantity' : 28,
       'newArrival' : false,
     },
     {
@@ -59,6 +60,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'category': 'Category 2',
       'price': '\$199','discountAmount' : '30%',
       'discountPrice' : '69',
+      'quantity' : 28,
       'newArrival' : true,
     },
     {
@@ -67,6 +69,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'category': 'Men Tops',
       'price': '\$199','discountAmount' : '',
       'newArrival' : true,
+      'quantity' : 83,
       'discountPrice' : '0',
     },
     {
@@ -75,6 +78,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'category': 'Men Jacket',
       'price': '\$99','discountAmount' : '',
       'newArrival' : false,
+      'quantity' : 18,
       'discountPrice' : '0',
     },
     {
@@ -83,6 +87,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'category': 'Men Pants',
       'price': '\$199','discountAmount' : '30%',
       'newArrival' : true,
+      'quantity' : 81,
       'discountPrice' : '69',
     },
     {
@@ -93,6 +98,8 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'discountAmount' : '30%',
       'newArrival' : false,
       'discountPrice' : '69',
+      'quantity' : 82,
+
     },
 
     // Add more products as needed
@@ -102,7 +109,7 @@ class _AllProductsPageState extends State<AllProductsPage> {
     category: "${productMap['category']!}",
     price: "${productMap['price']!}",
     discountAmount: "${productMap['discountAmount'] ?? "0.0"}",
-    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool,
+    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool, quantity: int.parse("${productMap['quantity'] ?? 0}"),
   )).toList();
 
   @override

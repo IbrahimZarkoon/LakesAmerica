@@ -57,6 +57,7 @@ class _OffersPageState extends State<OffersPage> with SingleTickerProviderStateM
       'price': '\$99',
       'discountAmount' : '60%',
       'discountPrice' : '39',
+      'quantity' : 82,
       'newArrival' : true,
     },
     {
@@ -65,6 +66,7 @@ class _OffersPageState extends State<OffersPage> with SingleTickerProviderStateM
       'category': 'Men Pants',
       'price': '\$199','discountAmount' : '20%',
       'discountPrice' : '169',
+      'quantity' : 82,
       'newArrival' : false,
     },
     {
@@ -73,6 +75,7 @@ class _OffersPageState extends State<OffersPage> with SingleTickerProviderStateM
       'category': 'Men Pants',
       'price': '\$199','discountAmount' : '55%',
       'newArrival' : true,
+      'quantity' : 82,
       'discountPrice' : '89',
     },
     {
@@ -82,6 +85,7 @@ class _OffersPageState extends State<OffersPage> with SingleTickerProviderStateM
       'price': '\$99',
       'discountAmount' : '30%',
       'newArrival' : false,
+      'quantity' : 82,
       'discountPrice' : '69',
     },
     {
@@ -90,6 +94,7 @@ class _OffersPageState extends State<OffersPage> with SingleTickerProviderStateM
       'category': 'Women Knitwear',
       'price': '\$199','discountAmount' : '30%',
       'newArrival' : true,
+      'quantity' : 82,
       'discountPrice' : '69',
     },
     {
@@ -98,6 +103,7 @@ class _OffersPageState extends State<OffersPage> with SingleTickerProviderStateM
       'category': 'Women Jeans',
       'price': '\$99','discountAmount' : '20%',
       'newArrival' : false,
+      'quantity' : 82,
       'discountPrice' : '79',
     },
 
@@ -108,7 +114,7 @@ class _OffersPageState extends State<OffersPage> with SingleTickerProviderStateM
     category: "${productMap['category']!}",
     price: "${productMap['price']!}",
     discountAmount: "${productMap['discountAmount'] ?? "0.0"}",
-    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool,
+    discountPrice: "${productMap['discountPrice'] ?? "0.0"}", newArrival: productMap['newArrival'] as bool, quantity: int.parse("${productMap['quantity'] ?? 0}"),
   )).toList();
 
   @override
