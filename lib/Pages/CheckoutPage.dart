@@ -2,12 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lakesamerica/Pages/ApplyDiscountPage.dart';
+import 'package:lakesamerica/Pages/CheckOutDetails/BillingAddressTab.dart';
+import 'package:lakesamerica/Pages/CheckOutDetails/MyInfo.dart';
 import 'package:provider/provider.dart';
 
 import '../Constants/colors.dart';
 import '../CustomWidgets/Headings.dart';
 import '../Providers/CartProvider.dart';
+import '../Providers/CheckoutProvider.dart';
 import '../Routes/PageRoutes.dart';
+import 'CheckOutDetails/ShippingTab.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -22,7 +26,7 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this); // Assuming two tabs for demonstration
+    _tabController = TabController(length: 4, vsync: this); // Assuming two tabs for demonstration
   }
 
   @override
@@ -30,6 +34,8 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
     _tabController.dispose();
     super.dispose();
   }
+
+  String appBarTitle = "Checkout";
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,16 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
         scrolledUnderElevation: 0,
         leadingWidth: MediaQuery.sizeOf(context).height * 0.06,
         leading: InkWell(
-            onTap: () => Navigator.pop(context),
+            onTap: (){
+              if(appBarTitle == "Checkout") {
+                Navigator.pop(context);
+              }else{
+                _tabController.animateTo(0);
+                setState(() {
+                  appBarTitle = "Checkout";
+                });
+              }
+            },
             child: Icon(
               Icons.arrow_back,
               color: black,
@@ -51,7 +66,7 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
             )),
         centerTitle: true,
         title: Text(
-          "Checkout",
+          appBarTitle,
           style: TextStyle(
             fontFamily: "OpenSans_SemiBold",
             fontWeight: FontWeight.bold,
@@ -66,9 +81,9 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
         physics: NeverScrollableScrollPhysics(),
         children: [
           CheckoutTab(),
-          Container(
-            child: Center(child: Text("Other Information")),
-          ),
+          MyInformationTab(tabController: _tabController),
+          BillingAddressTab(tabController: _tabController),
+          ShippingTab(tabController: _tabController)
         ],
       ),
 
@@ -78,6 +93,7 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
   Widget CheckoutTab()
   {
     var CartProv = Provider.of<CartProvider>(context, listen: false);
+    var CheckoutProv = Provider.of<CheckoutProvider>(context, listen: false);
 
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
@@ -95,7 +111,8 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
             padding:
             EdgeInsets.all(MediaQuery.sizeOf(context).height * 0.025),
             color: white,
-            child: Column(
+            child: CheckoutProv.myInformation.firstName.isEmpty?
+            Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -114,6 +131,9 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
                   onTap: ()
                   {
                     _tabController.animateTo(1);
+                    setState(() {
+                      appBarTitle = "My Information";
+                    });
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(
@@ -136,12 +156,323 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
                       style: TextStyle(
                           fontSize: MediaQuery.sizeOf(context).height * 0.018,
                           fontFamily: "OpenSans_SemiBold",
-                          fontWeight: FontWeight.bold,
                           color: white),
                     ),
                   ),
                 ),
               ],
+            )
+                :
+            InkWell(
+              onTap: ()
+              {
+                _tabController.animateTo(1);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "My Information",
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.02,
+                              fontFamily: "OpenSans_SemiBold",
+                              fontWeight: FontWeight.bold,
+                              color: black),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.005,
+                        ),
+
+                        Text(
+                          "${CheckoutProv.myInformation.firstName} ${CheckoutProv.myInformation.lastName}",
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+                        Text(
+                          CheckoutProv.myInformation.email,
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+
+                      ],
+                    ),
+                  ),
+
+                  Icon(Icons.arrow_forward_ios)
+                ],
+              ),
+            ),
+          ),
+
+          //Billing Address Container
+          Container(
+            width: MediaQuery.sizeOf(context).width,
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.sizeOf(context).height * 0.025),
+            padding:
+            EdgeInsets.all(MediaQuery.sizeOf(context).height * 0.025),
+            color: white,
+            child: CheckoutProv.billingAddress.address.isEmpty?
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Billing Address",
+                  style: TextStyle(
+                      fontSize: MediaQuery.sizeOf(context).height * 0.02,
+                      fontFamily: "OpenSans_SemiBold",
+                      fontWeight: FontWeight.bold,
+                      color: black),
+                ),
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.015,
+                ),
+                InkWell(
+                  onTap: ()
+                  {
+                    _tabController.animateTo(2);
+                    setState(() {
+                      appBarTitle = "Billing Address";
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.sizeOf(context).height * 0.02,
+                        vertical: MediaQuery.sizeOf(context).height * 0.0125),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: black, width: 1),
+                        color: black,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            offset: Offset(0, 0),
+                            blurRadius: 1.5,
+                          )
+                        ]),
+                    child: Text(
+                      "Select",
+                      style: TextStyle(
+                          fontSize: MediaQuery.sizeOf(context).height * 0.018,
+                          fontFamily: "OpenSans_SemiBold",
+                          color: white),
+                    ),
+                  ),
+                ),
+              ],
+            )
+                :
+            InkWell(
+              onTap: ()
+              {
+                _tabController.animateTo(2);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Billing Address",
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.02,
+                              fontFamily: "OpenSans_SemiBold",
+                              fontWeight: FontWeight.bold,
+                              color: black),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.005,
+                        ),
+
+                        Text(
+                          "${CheckoutProv.myInformation.firstName} ${CheckoutProv.myInformation.lastName}",
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+                        Text(
+                          CheckoutProv.billingAddress.address,
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+                        Text(
+                          CheckoutProv.billingAddress.company,
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+                        Text(
+                          CheckoutProv.billingAddress.addressLine2,
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+                        Text(
+                          CheckoutProv.billingAddress.city,
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+                        Text(
+                          CheckoutProv.billingAddress.postalCode,
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+                        Text(
+                          CheckoutProv.billingAddress.state,
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+
+                      ],
+                    ),
+                  ),
+
+                  Icon(Icons.arrow_forward_ios)
+                ],
+              ),
+            ),
+          ),
+
+          //Shipping Container
+          Container(
+            width: MediaQuery.sizeOf(context).width,
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.sizeOf(context).height * 0.025),
+            padding:
+            EdgeInsets.all(MediaQuery.sizeOf(context).height * 0.025),
+            color: white,
+            child: CheckoutProv.shipping.shippingTitle.isEmpty?
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Shipping",
+                  style: TextStyle(
+                      fontSize: MediaQuery.sizeOf(context).height * 0.02,
+                      fontFamily: "OpenSans_SemiBold",
+                      fontWeight: FontWeight.bold,
+                      color: black),
+                ),
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.015,
+                ),
+                InkWell(
+                  onTap: ()
+                  {
+                    _tabController.animateTo(3);
+                    setState(() {
+                      appBarTitle = "Shipping";
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.sizeOf(context).height * 0.02,
+                        vertical: MediaQuery.sizeOf(context).height * 0.0125),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: black, width: 1),
+                        color: black,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            offset: Offset(0, 0),
+                            blurRadius: 1.5,
+                          )
+                        ]),
+                    child: Text(
+                      "Select",
+                      style: TextStyle(
+                          fontSize: MediaQuery.sizeOf(context).height * 0.018,
+                          fontFamily: "OpenSans_SemiBold",
+                          color: white),
+                    ),
+                  ),
+                ),
+              ],
+            )
+                :
+            InkWell(
+              onTap: ()
+              {
+                _tabController.animateTo(3);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Shipping",
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.02,
+                              fontFamily: "OpenSans_SemiBold",
+                              fontWeight: FontWeight.bold,
+                              color: black),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.005,
+                        ),
+
+                        Text(
+                          "${CheckoutProv.shipping.shippingTitle}",
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+                        Text(
+                          "${CheckoutProv.shipping.shippingDays} delivery",
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+                        Text(
+                          "${CheckoutProv.shipping.shippingPrice}",
+                          style: TextStyle(
+                              fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                              fontFamily: "OpenSans_SemiBold",
+                              color: black),
+                        ),
+
+
+                      ],
+                    ),
+                  ),
+
+                  Icon(Icons.arrow_forward_ios)
+                ],
+              ),
             ),
           ),
 
@@ -316,6 +647,7 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
 
   Widget DetailsCon()
   {
+    var CheckoutProv = Provider.of<CheckoutProvider>(context, listen: false);
     var CartProv = Provider.of<CartProvider>(context, listen: false);
 
     return Container(
@@ -512,7 +844,10 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
           ),
 
           InkWell(
-            //onTap: () => navigateToProceedToCheckoutPage(context),
+            onTap: ()
+            {
+
+            },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.025),
               padding: EdgeInsets.symmetric(
@@ -521,7 +856,8 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
               alignment: Alignment.center,
               decoration: BoxDecoration(
 
-                  color: black.withOpacity(0.2), borderRadius: BorderRadius.circular(5),
+                  color: (CheckoutProv.myInformation.email.isEmpty && CheckoutProv.shipping.shippingTitle.isEmpty && CheckoutProv.billingAddress.address.isEmpty )?
+                  black.withOpacity(0.2) : primaryColor, borderRadius: BorderRadius.circular(5),
                 ),
               child: Text(
                 "Checkout",
@@ -529,7 +865,7 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
                     fontSize: MediaQuery.sizeOf(context).height * 0.018,
                     fontWeight: FontWeight.bold,
                     fontFamily: "OpenSans_SemiBold",
-                    color: black.withOpacity(0.5)),
+                    color: (CheckoutProv.myInformation.email.isEmpty && CheckoutProv.shipping.shippingTitle.isEmpty && CheckoutProv.billingAddress.address.isEmpty )? black.withOpacity(0.5) : white),
               ),
             ),
           ),

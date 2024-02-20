@@ -4,11 +4,15 @@ import 'package:provider/provider.dart';
 
 import 'Pages/SplashScreen.dart';
 import 'Providers/CartProvider.dart';
+import 'Providers/CheckoutProvider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => CartProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => CheckoutProvider()), // Assuming default constructor
+      ],
       child: const MyApp(),
     ),
   );
