@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lakesamerica/Pages/ApplyDiscountPage.dart';
 import 'package:lakesamerica/Pages/CheckOutDetails/BillingAddressTab.dart';
 import 'package:lakesamerica/Pages/CheckOutDetails/MyInfo.dart';
+import 'package:lakesamerica/Pages/CheckOutDetails/PaymentTab.dart';
 import 'package:provider/provider.dart';
 
 import '../Constants/colors.dart';
@@ -26,7 +27,7 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this); // Assuming two tabs for demonstration
+    _tabController = TabController(length: 5, vsync: this); // Assuming two tabs for demonstration
   }
 
   @override
@@ -83,7 +84,8 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
           CheckoutTab(),
           MyInformationTab(tabController: _tabController),
           BillingAddressTab(tabController: _tabController),
-          ShippingTab(tabController: _tabController)
+          ShippingTab(tabController: _tabController),
+          PaymentTab(tabController: _tabController),
         ],
       ),
 
@@ -167,6 +169,9 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
               onTap: ()
               {
                 _tabController.animateTo(1);
+                setState(() {
+                  appBarTitle = "My Information";
+                });
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -277,6 +282,9 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
               onTap: ()
               {
                 _tabController.animateTo(2);
+                setState(() {
+                  appBarTitle = "Billing Address";
+                });
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -422,6 +430,9 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
               onTap: ()
               {
                 _tabController.animateTo(3);
+                setState(() {
+                  appBarTitle = "Shipping";
+                });
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -574,7 +585,102 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
             ),
           ),
 
-          SizedBox(height: MediaQuery.sizeOf(context).height*0.015,),
+          //Payment Container
+          Container(
+            width: MediaQuery.sizeOf(context).width,
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.sizeOf(context).height * 0.025),
+            padding:
+            EdgeInsets.all(MediaQuery.sizeOf(context).height * 0.025),
+            color: white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Payment",
+                  style: TextStyle(
+                      fontSize: MediaQuery.sizeOf(context).height * 0.02,
+                      fontFamily: "OpenSans_SemiBold",
+                      fontWeight: FontWeight.bold,
+                      color: black),
+                ),
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.015,
+                ),
+                CheckoutProv.paymentMethod.title.isEmpty?
+                InkWell(
+                  onTap: ()
+                  {
+                    _tabController.animateTo(4);
+                    setState(() {
+                      appBarTitle = "Payment Methods";
+                    });
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.sizeOf(context).height * 0.02,
+                        vertical: MediaQuery.sizeOf(context).height * 0.0125),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: black, width: 1),
+                        color: black,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            offset: Offset(0, 0),
+                            blurRadius: 1.5,
+                          )
+                        ]),
+                    child: Text(
+                      "Select",
+                      style: TextStyle(
+                          fontSize: MediaQuery.sizeOf(context).height * 0.018,
+                          fontFamily: "OpenSans_SemiBold",
+                          color: white),
+                    ),
+                  ),
+                )
+                    :
+                InkWell(
+                  onTap: ()
+                  {
+                    _tabController.animateTo(4);
+                    setState(() {
+                      appBarTitle = "Payment Methods";
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.sizeOf(context).height * 0.005,
+                            ),
+
+                            Text(
+                              "${CheckoutProv.paymentMethod.title}",
+                              style: TextStyle(
+                                  fontSize: MediaQuery.sizeOf(context).height * 0.016,
+                                  fontFamily: "OpenSans_SemiBold",
+                                  color: black),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Icon(Icons.arrow_forward_ios)
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ),
 
           //Details Container
           DetailsCon(),
@@ -859,6 +965,7 @@ class _CheckoutPageState extends State<CheckoutPage> with SingleTickerProviderSt
                   color: (CheckoutProv.myInformation.email.isEmpty && CheckoutProv.shipping.shippingTitle.isEmpty && CheckoutProv.billingAddress.address.isEmpty )?
                   black.withOpacity(0.2) : primaryColor, borderRadius: BorderRadius.circular(5),
                 ),
+
               child: Text(
                 "Checkout",
                 style: TextStyle(

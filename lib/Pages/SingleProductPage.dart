@@ -219,6 +219,10 @@ class _SingleProductPageState extends State<SingleProductPage> {
             //Image Container
             topImageCon(),
 
+
+
+
+
             //Title, Price & share
             Container(
               padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.015,vertical: MediaQuery.sizeOf(context).height*0.0175),
@@ -233,6 +237,41 @@ class _SingleProductPageState extends State<SingleProductPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
 
                       children: [
+
+                        (double.parse(widget.product.discountPrice) > 0)? Row(
+                          children: [
+                            Text(
+                              '\$${widget.product.discountPrice}', // Display the discounted price with a '$' prefix
+                              style: TextStyle(
+                                  fontFamily: "OpenSans_SemiBold",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: MediaQuery.sizeOf(context).height*0.026,
+                                  color: secondaryColor
+                              ),
+                            ),
+                            SizedBox(width: MediaQuery.sizeOf(context).height*0.0075), // Add some spacing between the prices
+                            Text(
+                              '${widget.product.price}', // Display the original price with a '$' prefix
+                              style: TextStyle(
+                                color: black.withOpacity(0.6),
+                                fontSize: MediaQuery.sizeOf(context).height*0.018,
+                                fontFamily: "OpenSans_SemiBold",
+                                decoration: TextDecoration.lineThrough, // Add a line-through decoration
+                              ),
+                            ),
+                          ],
+                        )  : Text(
+                          widget.product.price,
+                          style: TextStyle(
+                            color: secondaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: MediaQuery.sizeOf(context).height*0.026,
+                            fontFamily: "OpenSans_SemiBold",
+                          ),
+                        ),
+
+                        SizedBox(height: MediaQuery.sizeOf(context).height*0.0015,),
+
                         //Product Title
                         Text(
                           "${widget.product.title}",
@@ -240,7 +279,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: "OpenSans_Bold",
-                              fontSize: MediaQuery.sizeOf(context).height*0.022,
+                              fontSize: MediaQuery.sizeOf(context).height*0.02,
                               color: black
                           ),
                         ),
@@ -253,40 +292,8 @@ class _SingleProductPageState extends State<SingleProductPage> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: "OpenSans_SemiBold",
-                              fontSize: MediaQuery.sizeOf(context).height*0.022,
-                              color: black
-                          ),
-                        ),
-
-                        SizedBox(height: MediaQuery.sizeOf(context).height*0.0015,),
-
-                        (double.parse(widget.product.discountPrice) > 0)? Row(
-                          children: [
-                            Text(
-                              '\$${widget.product.discountPrice}', // Display the discounted price with a '$' prefix
-                              style: TextStyle(
-                                  fontFamily: "OpenSans_SemiBold",
-                                  fontSize: MediaQuery.sizeOf(context).height*0.022,
-                                  color: secondaryColor
-                              ),
-                            ),
-                            SizedBox(width: MediaQuery.sizeOf(context).height*0.0075), // Add some spacing between the prices
-                            Text(
-                              '${widget.product.price}', // Display the original price with a '$' prefix
-                              style: TextStyle(
-                                color: black,
-                                fontSize: MediaQuery.sizeOf(context).height*0.018,
-                                fontFamily: "OpenSans_SemiBold",
-                                decoration: TextDecoration.lineThrough, // Add a line-through decoration
-                              ),
-                            ),
-                          ],
-                        )  : Text(
-                          widget.product.price,
-                          style: TextStyle(
-                            color: secondaryColor,
-                            fontSize: MediaQuery.sizeOf(context).height*0.022,
-                            fontFamily: "OpenSans_SemiBold",
+                              fontSize: MediaQuery.sizeOf(context).height*0.018,
+                              color: black.withOpacity(0.6)
                           ),
                         ),
                       ],
@@ -314,16 +321,257 @@ class _SingleProductPageState extends State<SingleProductPage> {
             //Sizes Container
             sizeWidget(),
 
-            ProductDescriptionAcc(title: "Description"),
+            ProductDescriptionAcc(title: "Description",
+              content: Padding(
+                padding:  EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.005),
+
+                child: RichText(
+                text: TextSpan(
+                  style: TextStyle(fontFamily: "OpenSans_SemiBold"),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'New Arrival: \n\n',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                    TextSpan(
+                      text: 'Swim shorts in patterned seersucker. Drawstring and covered elastic at waistband, side pockets, and a back pocket with hook-loop fastener. Mesh liner shorts.\n\n',
+                      style: TextStyle(color: Colors.black),
+                    ),
+
+                    TextSpan(
+                      text: 'Article number: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                    ),
+                    TextSpan(
+                      text: '1216311002\n\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                    ),
+                    TextSpan(
+                      text: 'Length: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                    ),
+                    TextSpan(
+                      text: 'Short\n\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                    ),
+                    TextSpan(
+                      text: 'Waist Rise: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                    ),
+                    TextSpan(
+                      text: 'Regular waist\n\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                    ),
+                    TextSpan(
+                      text: 'Fit: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                    ),
+
+                    TextSpan(
+                      text: 'Regular fit\n\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                    ),
+                    TextSpan(
+                      text: 'Description: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                    ),
+
+                    TextSpan(
+                      text: 'Black/white, Striped\n\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                    ),
+                    TextSpan(
+                      text: 'Imported: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: 'Yes\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015),
+                    ),
+                  ],
+                ),
+                            ),
+              ),),
 
             SizedBox(height: MediaQuery.sizeOf(context).height*0.0025,),
 
 
-            ProductDescriptionAcc(title: "Materials & Suppliers"),
+            ProductDescriptionAcc(title: "Materials & Suppliers",
+              content: Padding(
+                padding:  EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.005),
+
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(fontFamily: "OpenSans_SemiBold"),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: 'New Arrival: \n\n',
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      TextSpan(
+                        text: 'Swim shorts in patterned seersucker. Drawstring and covered elastic at waistband, side pockets, and a back pocket with hook-loop fastener. Mesh liner shorts.\n\n',
+                        style: TextStyle(color: Colors.black),
+                      ),
+
+                      TextSpan(
+                        text: 'Article number: ',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                      ),
+                      TextSpan(
+                        text: '1216311002\n\n',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                      ),
+                      TextSpan(
+                        text: 'Length: ',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                      ),
+                      TextSpan(
+                        text: 'Short\n\n',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                      ),
+                      TextSpan(
+                        text: 'Waist Rise: ',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                      ),
+                      TextSpan(
+                        text: 'Regular waist\n\n',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                      ),
+                      TextSpan(
+                        text: 'Fit: ',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                      ),
+
+                      TextSpan(
+                        text: 'Regular fit\n\n',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                      ),
+                      TextSpan(
+                        text: 'Description: ',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                      ),
+
+                      TextSpan(
+                        text: 'Black/white, Striped\n\n',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                      ),
+                      TextSpan(
+                        text: 'Imported: ',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: 'Yes\n',
+                        style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015),
+                      ),
+                    ],
+                  ),
+                ),
+              ),),
             SizedBox(height: MediaQuery.sizeOf(context).height*0.0025,),
 
-            ProductDescriptionAcc(title: "Care guide"),
-            shadowLine(context),
+            ProductDescriptionAcc(title: "Care guide",content: Padding(
+              padding:  EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.005),
+
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(fontFamily: "OpenSans_SemiBold"),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'New Arrival: \n\n',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                    TextSpan(
+                      text: 'Swim shorts in patterned seersucker. Drawstring and covered elastic at waistband, side pockets, and a back pocket with hook-loop fastener. Mesh liner shorts.\n\n',
+                      style: TextStyle(color: Colors.black),
+                    ),
+
+                    TextSpan(
+                      text: 'Article number: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                    ),
+                    TextSpan(
+                      text: '1216311002\n\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                    ),
+                    TextSpan(
+                      text: 'Length: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                    ),
+                    TextSpan(
+                      text: 'Short\n\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                    ),
+                    TextSpan(
+                      text: 'Waist Rise: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                    ),
+                    TextSpan(
+                      text: 'Regular waist\n\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                    ),
+                    TextSpan(
+                      text: 'Fit: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                    ),
+
+                    TextSpan(
+                      text: 'Regular fit\n\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                    ),
+                    TextSpan(
+                      text: 'Description: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+
+                    ),
+
+                    TextSpan(
+                      text: 'Black/white, Striped\n\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,),
+
+                    ),
+                    TextSpan(
+                      text: 'Imported: ',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015,fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(
+                      text: 'Yes\n',
+                      style: TextStyle(color: black,fontFamily: "OpenSans_SemiBold",fontSize: MediaQuery.sizeOf(context).height*0.015),
+                    ),
+                  ],
+                ),
+              ),
+            ),),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.025),
+                child: shadowLine(context)),
 
             SizedBox(height: MediaQuery.sizeOf(context).height*0.015,),
 
