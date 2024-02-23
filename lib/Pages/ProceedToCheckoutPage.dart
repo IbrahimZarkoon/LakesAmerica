@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lakesamerica/Pages/RegisterPage.dart';
 import 'package:provider/provider.dart';
 
 import '../Constants/colors.dart';
@@ -104,7 +105,7 @@ class _ProceedToCheckoutPageState extends State<ProceedToCheckoutPage> {
                   ),
                   SizedBox(height: MediaQuery.sizeOf(context).height * 0.025),
                   InkWell(
-                    onTap: () => navigateToCheckoutPage(context),
+                    onTap: () => navigateToCheckoutPage(context,1),
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.sizeOf(context).height * 0.02,
@@ -236,7 +237,7 @@ class _ProceedToCheckoutPageState extends State<ProceedToCheckoutPage> {
           ),
           SizedBox(height: MediaQuery.sizeOf(context).height * 0.025),
           InkWell(
-            onTap: () => navigateToCheckoutPage(context),
+            onTap: () => navigateToCheckoutPage(context,0),
 
             child: Container(
               padding: EdgeInsets.symmetric(
@@ -301,7 +302,7 @@ class _ProceedToCheckoutPageState extends State<ProceedToCheckoutPage> {
           ),
           SizedBox(height: MediaQuery.sizeOf(context).height * 0.025),
           InkWell(
-            onTap: () => navigateToCheckoutPage(context),
+            onTap: () => Navigator.push(context, CupertinoPageRoute(builder: (_) => RegisterPage())),
             child: Container(
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.sizeOf(context).height * 0.02,

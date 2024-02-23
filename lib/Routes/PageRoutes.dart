@@ -95,9 +95,9 @@ void navigateToProceedToCheckoutPage(BuildContext context) {
   );
 }
 
-void navigateToCheckoutPage(BuildContext context) {
+void navigateToCheckoutPage(BuildContext context,int tabInitialIndex) {
   Navigator.pushReplacement(
     context,
-    CupertinoPageRoute(builder: (_) => CheckoutPage())
+    CupertinoPageRoute(builder: (_) => CheckoutPage(initialTabIndex: tabInitialIndex,))
   );
 }
