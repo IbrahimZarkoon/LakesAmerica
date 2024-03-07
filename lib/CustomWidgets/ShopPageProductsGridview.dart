@@ -282,14 +282,14 @@ class ShopPageProdContainer extends StatelessWidget {
               product.title,
               style: TextStyle(
                   fontFamily: "OpenSans_SemiBold",
-                  fontSize: MediaQuery.sizeOf(context).height*0.018,
+                  fontSize: MediaQuery.sizeOf(context).height*0.016,
                   color: black
               ),
             ),
             SizedBox(height: 2),
             Text(product.category,style: TextStyle(
                 fontFamily: "OpenSans_SemiBold",
-                fontSize: MediaQuery.sizeOf(context).height*0.014,
+                fontSize: MediaQuery.sizeOf(context).height*0.013,
                 color: black.withOpacity(0.6)
             ),),
             SizedBox(height: 2),
@@ -305,7 +305,7 @@ class ShopPageProdContainer extends StatelessWidget {
                 ),
                 SizedBox(width: MediaQuery.sizeOf(context).height*0.005), // Add some spacing between the prices
                 Text(
-                  '${product.price}', // Display the original price with a '$' prefix
+                  '\$${product.price}', // Display the original price with a '$' prefix
                   style: TextStyle(
                     color: black,
                     fontSize: MediaQuery.sizeOf(context).height*0.014,
@@ -314,7 +314,7 @@ class ShopPageProdContainer extends StatelessWidget {
                 ),
               ],
             )  : Text(
-              product.price,
+              "\$${product.price}",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 5),

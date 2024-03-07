@@ -9,6 +9,7 @@ import '../CustomWidgets/AppBar.dart';
 import '../CustomWidgets/Drawer.dart';
 import 'FavoritesPage.dart';
 import 'OffersPage.dart';
+import 'Profile/ProfilePage.dart';
 
 class DashboardPage extends StatefulWidget {
   DashboardPage({Key? key, required this.tabindex}) : super(key: key);
@@ -26,7 +27,8 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     ShopPage(),
     OffersPage(),
     FavoritesPage(),
-    SignInPage()
+    ProfilePage(),
+    // SignInPage()
   ];
 
 
@@ -76,17 +78,6 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                   physics: const NeverScrollableScrollPhysics(),
                   controller: _tabController,
                   children: userTabs)),
-
-          // floatingActionButton: FloatingActionButton(
-          //   onPressed: () { setState(() {
-          //     widget.tabindex = 2;
-          //     _tabController.animateTo(widget.tabindex);
-          //
-          //   }); },
-          //   backgroundColor: Color(0xff00afef),
-          //   child: Icon(Icons.find_in_page),
-          // ),
-
 
           bottomNavigationBar:  customBottomNavBar(context),
         ),
@@ -165,7 +156,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             iconMargin: const EdgeInsets.only(bottom: 3),
             icon: widget.tabindex == 4? Icon(Icons.person,size: MediaQuery.sizeOf(context).height*0.03) : Icon(Icons.person_outline,size: MediaQuery.sizeOf(context).height*0.025,),
 
-            text: 'Guest',
+            text: 'Zarkoon',
           ),
         ],
       ),
@@ -200,8 +191,8 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
               ]
             ),
             child: TextButton(
-              onPressed: () => Navigator.of(context).pop(true), // Exits the app
-              child: Text('Stay',style: TextStyle(
+              onPressed: () => Navigator.of(context).pop(false), // Exits the app
+              child: Text('Continue Shopping',style: TextStyle(
                   color: white,fontSize: MediaQuery.sizeOf(context).height*0.016
               ),),
             ),
@@ -219,7 +210,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                 ]
             ),
             child: TextButton(
-              onPressed: () => Navigator.of(context).pop(false), // Cancels the exit
+              onPressed: () => Navigator.of(context).pop(true), // Cancels the exit
               child: Text('Exit',style: TextStyle(
                   color: secondaryColor,fontSize: MediaQuery.sizeOf(context).height*0.016
               ),),

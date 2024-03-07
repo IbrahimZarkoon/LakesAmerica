@@ -47,7 +47,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
       decoration: BoxDecoration(
           image: DecorationImage(
               image: NetworkImage(e),
-              fit: BoxFit.cover
+              fit: BoxFit.fitHeight
           )
       ),
     )).toList();
@@ -56,6 +56,9 @@ class _SingleProductPageState extends State<SingleProductPage> {
   int selectedColorImage = 0;
 
   List<String> colorImageUrls = [
+    "https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F54%2F96%2F549605949fdf07f526c446f7a3917b1025340695.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D",
+    'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F64%2F12%2F6412515421bbf74e96c7b04751f2d59b8b3ca59e.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bmen_jeans_regular%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
+    'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2Ff7%2F70%2Ff7705e9558c4b1aec042472e4da2aa8b1e4b48a3.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bmen_jeans_regular%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
     "https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F54%2F96%2F549605949fdf07f526c446f7a3917b1025340695.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5B%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D",
     'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2F64%2F12%2F6412515421bbf74e96c7b04751f2d59b8b3ca59e.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bmen_jeans_regular%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D',
     'https://lp2.hm.com/hmgoepprod?set=format%5Bwebp%5D%2Cquality%5B79%5D%2Csource%5B%2Ff7%2F70%2Ff7705e9558c4b1aec042472e4da2aa8b1e4b48a3.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bmen_jeans_regular%5D%2Ctype%5BDESCRIPTIVESTILLLIFE%5D%2Cres%5Bm%5D%2Chmver%5B2%5D&call=url%5Bfile%3A%2Fproduct%2Fmain%5D'
@@ -219,13 +222,9 @@ class _SingleProductPageState extends State<SingleProductPage> {
             //Image Container
             topImageCon(),
 
-
-
-
-
             //Title, Price & share
             Container(
-              padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.015,vertical: MediaQuery.sizeOf(context).height*0.0175),
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.015,vertical: MediaQuery.sizeOf(context).height*0.01),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -251,7 +250,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                             ),
                             SizedBox(width: MediaQuery.sizeOf(context).height*0.0075), // Add some spacing between the prices
                             Text(
-                              '${widget.product.price}', // Display the original price with a '$' prefix
+                              '\$${widget.product.price}', // Display the original price with a '$' prefix
                               style: TextStyle(
                                 color: black.withOpacity(0.6),
                                 fontSize: MediaQuery.sizeOf(context).height*0.018,
@@ -261,7 +260,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                             ),
                           ],
                         )  : Text(
-                          widget.product.price,
+                          "\$${widget.product.price}",
                           style: TextStyle(
                             color: secondaryColor,
                             fontWeight: FontWeight.bold,
@@ -278,8 +277,9 @@ class _SingleProductPageState extends State<SingleProductPage> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontFamily: "OpenSans_Bold",
-                              fontSize: MediaQuery.sizeOf(context).height*0.02,
+                              fontFamily: "OpenSans_SemiBold",
+                              fontWeight: FontWeight.bold,
+                              fontSize: MediaQuery.sizeOf(context).height*0.016,
                               color: black
                           ),
                         ),
@@ -292,7 +292,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: "OpenSans_SemiBold",
-                              fontSize: MediaQuery.sizeOf(context).height*0.018,
+                              fontSize: MediaQuery.sizeOf(context).height*0.014,
                               color: black.withOpacity(0.6)
                           ),
                         ),
@@ -313,13 +313,35 @@ class _SingleProductPageState extends State<SingleProductPage> {
               ),
             ),
 
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height*0.005,
+              color: Color(0xffe7e7e7),
+            ),
+
+            SizedBox(height: MediaQuery.sizeOf(context).height*0.015,),
+
             //Colors Container
             colorsWidget(),
 
-            SizedBox(height: MediaQuery.sizeOf(context).height*0.03,),
+            SizedBox(height: MediaQuery.sizeOf(context).height*0.015,),
+
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height*0.005,
+              color: Color(0xffe7e7e7),
+            ),
+
 
             //Sizes Container
             sizeWidget(),
+
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height*0.005,
+              color: Color(0xffe7e7e7),
+            ),
+
 
             ProductDescriptionAcc(title: "Description",
               content: Padding(
@@ -403,8 +425,11 @@ class _SingleProductPageState extends State<SingleProductPage> {
                             ),
               ),),
 
-            SizedBox(height: MediaQuery.sizeOf(context).height*0.0025,),
-
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height*0.005,
+              color: Color(0xffe7e7e7),
+            ),
 
             ProductDescriptionAcc(title: "Materials & Suppliers",
               content: Padding(
@@ -487,7 +512,12 @@ class _SingleProductPageState extends State<SingleProductPage> {
                   ),
                 ),
               ),),
-            SizedBox(height: MediaQuery.sizeOf(context).height*0.0025,),
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height*0.005,
+              color: Color(0xffe7e7e7),
+            ),
+
 
             ProductDescriptionAcc(title: "Care guide",content: Padding(
               padding:  EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.005),
@@ -569,21 +599,24 @@ class _SingleProductPageState extends State<SingleProductPage> {
                 ),
               ),
             ),),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.025),
-                child: shadowLine(context)),
+
+            Container(
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height*0.005,
+              color: Color(0xffe7e7e7),
+            ),
 
             SizedBox(height: MediaQuery.sizeOf(context).height*0.015,),
 
             //Products Slider
             Container(
-              padding:  EdgeInsets.only(top: MediaQuery.sizeOf(context).height*0.015,bottom: MediaQuery.sizeOf(context).height*0.01 , left:MediaQuery.sizeOf(context).height*0.015 , right:MediaQuery.sizeOf(context).height*0.015),
+              padding:  EdgeInsets.only(top: MediaQuery.sizeOf(context).height*0.01,bottom: MediaQuery.sizeOf(context).height*0.01 , left:MediaQuery.sizeOf(context).height*0.015 , right:MediaQuery.sizeOf(context).height*0.015),
               child: Row(
                 children:  [
 
                   Text("Others also bought",overflow: TextOverflow.ellipsis,
                       style:
-                      TextStyle(color: Colors.black.withOpacity(0.8),fontFamily: "OpenSans_Bold", fontSize: MediaQuery.sizeOf(context).height*0.024,)),
+                      TextStyle(color: Colors.black.withOpacity(0.8),fontFamily: "OpenSans_SemiBold",fontWeight: FontWeight.bold, fontSize: MediaQuery.sizeOf(context).height*0.02,)),
                 ],
               ),
             ),
@@ -591,13 +624,13 @@ class _SingleProductPageState extends State<SingleProductPage> {
             OffersPageProductSlider.custom(snapshot: recommendedProducts),
 
             Container(
-              padding:  EdgeInsets.only(top: MediaQuery.sizeOf(context).height*0.015,bottom: MediaQuery.sizeOf(context).height*0.01 , left:MediaQuery.sizeOf(context).height*0.015 , right:MediaQuery.sizeOf(context).height*0.015),
+              padding:  EdgeInsets.only(top: MediaQuery.sizeOf(context).height*0.01,bottom: MediaQuery.sizeOf(context).height*0.01 , left:MediaQuery.sizeOf(context).height*0.015 , right:MediaQuery.sizeOf(context).height*0.015),
               child: Row(
                 children:  [
 
-                  Text("Style with",overflow: TextOverflow.ellipsis,
+                  Text("Similar Articles",overflow: TextOverflow.ellipsis,
                       style:
-                      TextStyle(color: Colors.black.withOpacity(0.8),fontFamily: "OpenSans_Bold", fontSize: MediaQuery.sizeOf(context).height*0.024,)),
+                      TextStyle(color: Colors.black.withOpacity(0.8),fontFamily: "OpenSans_SemiBold",fontWeight: FontWeight.bold, fontSize: MediaQuery.sizeOf(context).height*0.02,)),
                 ],
               ),
             ),
@@ -612,7 +645,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
         height: MediaQuery.sizeOf(context).height*0.1,
         padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height * 0.02,vertical: MediaQuery.sizeOf(context).height * 0.02),
         decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: black.withOpacity(0.15),width: 1))
+          border: Border(top: BorderSide(color: black.withOpacity(0.15),width: 0.5))
         ),
         child: InkWell(
           onTap: () async {
@@ -670,25 +703,26 @@ class _SingleProductPageState extends State<SingleProductPage> {
   Widget colorsWidget()
   {
     return Container(
-      height: MediaQuery.sizeOf(context).height*0.2,
+      height: MediaQuery.sizeOf(context).height*0.125,
       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.02),
-      child: Column(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Colors:",
+            "Colors: ",
             style: TextStyle(
-              color: Colors.black,
-              fontFamily: "OpenSans_SemiBold",
-              fontSize: MediaQuery.of(context).size.height * 0.022,
+                fontFamily: "OpenSans_SemiBold",
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.sizeOf(context).height*0.016,
+                color: black
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+          SizedBox(width: MediaQuery.of(context).size.height * 0.01),
 
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.only(left: MediaQuery.sizeOf(context).width*0.1),
+              padding: EdgeInsets.only(left: MediaQuery.sizeOf(context).width*0.01),
               scrollDirection: Axis.horizontal,
               physics: BouncingScrollPhysics(),
               itemCount: colorImageUrls.length,
@@ -712,28 +746,31 @@ class _SingleProductPageState extends State<SingleProductPage> {
   Widget sizeWidget()
   {
     return Container(
-      height: MediaQuery.sizeOf(context).height*0.2,
-      padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.02),
-      child: Column(
+      padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.02,top: MediaQuery.of(context).size.height * 0.015,bottom: MediaQuery.of(context).size.height * 0.015),
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Sizes:",
+            "Sizes: ",
             style: TextStyle(
-              color: Colors.black,
-              fontFamily: "OpenSans_SemiBold",
-              fontSize: MediaQuery.of(context).size.height * 0.022,
+                fontFamily: "OpenSans_SemiBold",
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.sizeOf(context).height*0.016,
+                color: black
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+          SizedBox(width: MediaQuery.sizeOf(context).width*0.05),
 
-          Wrap(
-            spacing: MediaQuery.sizeOf(context).height*0.015, // Horizontal space between chips
-            runSpacing: MediaQuery.sizeOf(context).height*0.015, // Vertical space between chips lines
-            children: List<Widget>.generate(sizes.length, (index) {
-              return sizesCon(sizes[index],index);
-            }),
+
+          Expanded(
+            child: Wrap(
+              spacing: MediaQuery.sizeOf(context).height*0.015, // Horizontal space between chips
+              runSpacing: MediaQuery.sizeOf(context).height*0.015, // Vertical space between chips lines
+              children: List<Widget>.generate(sizes.length, (index) {
+                return sizesCon(sizes[index],index);
+              }),
+            ),
           )
         ],
       ),
@@ -765,9 +802,10 @@ class _SingleProductPageState extends State<SingleProductPage> {
           children:[
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.65,
+              height: MediaQuery.of(context).size.height * 0.45,
               decoration: BoxDecoration(
                 color: white,
+                border: Border(bottom: BorderSide(color: black.withOpacity(0.05),width: 1))
               ),
               child: PageView(
                 physics: BouncingScrollPhysics(),
@@ -824,7 +862,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
               ),
             ),
             Positioned(
-              bottom: MediaQuery.sizeOf(context).height*0.04,
+              bottom: MediaQuery.sizeOf(context).height*0.02,
               left: MediaQuery.sizeOf(context).height*0.02,
               right: MediaQuery.sizeOf(context).height*0.02,
               child: Row(
@@ -843,11 +881,10 @@ class _SingleProductPageState extends State<SingleProductPage> {
   {
     return Container(
       margin: EdgeInsets.only(right: MediaQuery.sizeOf(context).height*0.02),
-      width: MediaQuery.sizeOf(context).width*0.2,
-      height: MediaQuery.sizeOf(context).height*0.15,
+      width: MediaQuery.sizeOf(context).width*0.15,
       decoration: BoxDecoration(
         color: white,
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(color:selectedColorImage == index? black : white,width: 1), // Border color
         image: DecorationImage(
           image: NetworkImage(img),
@@ -874,14 +911,15 @@ class _SingleProductPageState extends State<SingleProductPage> {
         decoration: BoxDecoration(
           color: selectedSizeIndex == index ? primaryColor : white, // Highlight if selected
           border: Border.all(color: selectedSizeIndex == index  ? primaryColor : black.withOpacity(0.15), width: 1),
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
           sizes[index],
           style: TextStyle(
             color: selectedSizeIndex == index ? white : black,
-            fontSize: MediaQuery.sizeOf(context).height*0.018,
-            fontFamily: "OpenSans_SemiBold"
+            fontSize: MediaQuery.sizeOf(context).height*0.016,
+            fontFamily: "OpenSans_SemiBold",
+            fontWeight: selectedSizeIndex == index ? FontWeight.bold : FontWeight.normal
           ),
         ),
       ),

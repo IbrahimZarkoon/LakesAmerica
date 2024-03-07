@@ -116,6 +116,7 @@ class _SortandFilterState extends State<SortandFilter>
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
+
         height: MediaQuery.of(context).size.height * 0.95,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -179,11 +180,13 @@ class _SortandFilterState extends State<SortandFilter>
       physics: BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.sizeOf(context).height * 0.02,
-          vertical: MediaQuery.sizeOf(context).height * 0.02),
+          vertical: MediaQuery.sizeOf(context).height * 0.0),
       scrollDirection: Axis.vertical,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+
+          SizedBox(height: MediaQuery.sizeOf(context).height*0.05,),
           //Close Row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -211,9 +214,8 @@ class _SortandFilterState extends State<SortandFilter>
             ],
           ),
 
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
+          SizedBox(height: MediaQuery.sizeOf(context).height*0.015,),
+
 
           SortCon("Sort By", sortOptions[_selectedSortIndex]),
 
@@ -363,6 +365,7 @@ class _SortandFilterState extends State<SortandFilter>
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
               ),
+              actions: [SizedBox()],
             ),
             Column(
                 children: List.generate(options.length, (index) {
@@ -443,6 +446,7 @@ class _SortandFilterState extends State<SortandFilter>
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
               ),
+              actions: [SizedBox()],
             ),
             Column(
                 children: List.generate(options.length, (index) {

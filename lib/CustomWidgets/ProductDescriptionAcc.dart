@@ -18,12 +18,12 @@ class _ProductDescriptionAccState extends State<ProductDescriptionAcc> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.025),
+      margin: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).height*0.02),
       decoration: BoxDecoration(
         // Conditionally show borders based on _isExpanded
         border: Border(
-          top: BorderSide(color: Colors.black.withOpacity(0.2), width: 1),
-          bottom: BorderSide.none ,
+          bottom: BorderSide.none,
+          top: BorderSide.none ,
         ),
       ),
       child: ExpansionTile(
@@ -32,7 +32,7 @@ class _ProductDescriptionAccState extends State<ProductDescriptionAcc> {
         shape: Border.all(color: Colors.white),
         title: Text(widget.title,style: TextStyle(
             fontFamily: "OpenSans_SemiBold",
-            fontSize: MediaQuery.sizeOf(context).height*0.02,
+            fontSize: MediaQuery.sizeOf(context).height*0.017,
             fontWeight: _isExpanded? FontWeight.bold : FontWeight.normal,
             color: _isExpanded? secondaryColor : black
         ),),

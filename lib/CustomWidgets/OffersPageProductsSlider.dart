@@ -308,16 +308,16 @@ class _OffersPageProductContainerState extends State<OffersPageProductContainer>
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: "OpenSans_SemiBold",
-                        fontSize: MediaQuery.sizeOf(context).height*0.018,
+                        fontSize: MediaQuery.sizeOf(context).height*0.016,
                         color: black
                     ),
                   ),
                   SizedBox(height: 2),
                   Text(widget.product.category,maxLines: 1,
                     overflow: TextOverflow.ellipsis,style: TextStyle(
-                      fontFamily: "OpenSans_SemiBold",
-                      fontSize: MediaQuery.sizeOf(context).height*0.014,
-                      color: black.withOpacity(0.6)
+                        fontFamily: "OpenSans_SemiBold",
+                        fontSize: MediaQuery.sizeOf(context).height*0.013,
+                        color: black.withOpacity(0.6)
                   ),),
                   SizedBox(height: 2),
                   (double.parse(widget.product.discountPrice) > 0)? Row(
@@ -326,7 +326,7 @@ class _OffersPageProductContainerState extends State<OffersPageProductContainer>
                         '\$${widget.product.discountPrice}', // Display the discounted price with a '$' prefix
                         style: TextStyle(
                             fontFamily: "OpenSans_SemiBold",
-                            fontSize: MediaQuery.sizeOf(context).height*0.022,
+                            fontSize: MediaQuery.sizeOf(context).height*0.018,
                             color: secondaryColor
                         ),
                       ),
@@ -335,13 +335,13 @@ class _OffersPageProductContainerState extends State<OffersPageProductContainer>
                         '\$${widget.product.price}', // Display the original price with a '$' prefix
                         style: TextStyle(
                           color: black,
-                          fontSize: MediaQuery.sizeOf(context).height*0.016,
+                          fontSize: MediaQuery.sizeOf(context).height*0.014,
                           decoration: TextDecoration.lineThrough, // Add a line-through decoration
                         ),
                       ),
                     ],
                   )  : Text(
-                    widget.product.price,
+                    "\$${widget.product.price}",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],

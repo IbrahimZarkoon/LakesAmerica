@@ -40,6 +40,8 @@ dependencies:
   share: ^2.0.4
   provider: ^6.1.1
   url_launcher: ^6.2.4
+  dob_input_field: ^2.0.0
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:
